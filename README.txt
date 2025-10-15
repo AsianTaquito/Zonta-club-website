@@ -10,8 +10,7 @@ awesome stuff, check out her portfolio for more stunning images:
 
 http://ineedchemicalx.deviantart.com/
 
-(* = Not included! Only meant for use with my own on-site demo, so please do NOT download
-and/or use any of Felicia's work without her explicit permission!)
+(meant for demo site use)
 
 Feedback, bug reports, and comments are not only welcome, but strongly encouraged :)
 
