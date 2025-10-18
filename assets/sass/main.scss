@@ -394,7 +394,6 @@
 
 		img {
 			display: block;
-			width: 100%;
 		}
 
 		&.fit {
@@ -404,23 +403,29 @@
 
 		&.left {
 			float: left;
-			margin: 0 2em 2em 0;
+			
 		}
 
 		&.centered {
 			display: block;
-			margin: 0 0 2em 0;
-
-			img {
-				margin: 0 auto;
-				width: auto;
-			}
+			margin: auto;
 		}
 
 		&.featured {
 			display: block;
 			width: 100%;
-			margin: 0 0 2em 0;
+			margin: auto;
+		}
+
+		&.banner{
+			display: block;
+			width: 100%;
+
+			img {
+				display: block;
+				width: 100%;
+				height: auto;
+			}
 		}
 	}
 
@@ -666,6 +671,7 @@
 				font-family: 'Font Awesome 5 Brands';
 			}
 		}
+
 	}
 
 /* Box */
@@ -1014,7 +1020,7 @@
 	#highlights {
 		.highlight {
 			text-align: center;
-
+			
 			h3 {
 				color: #e97770;
 				margin: 0 0 0.75em 0;
