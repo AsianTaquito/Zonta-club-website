@@ -1938,6 +1938,38 @@ input, select, textarea {
 			font-family: 'Font Awesome 5 Brands';
 		}
 		
+		.icon.about{
+			display: inline-block;
+		}
+
+		.feature-list .row > .col-6 {
+			position: relative;
+		}
+
+		.feature-list .row > .col-6 > svg.icon.about,
+		.feature-list .row > .col-6 svg.icon.about {
+			position: absolute;
+			left: 0;
+			top: 3rem;
+			width: 2.5rem;
+			height: 2.5rem;
+			pointer-events: none;
+			display: block;
+		}
+
+		.feature-list > .row > :nth-child(-n + 2) > svg.icon.about,
+		.feature-list > .row > :nth-child(-n + 2) svg.icon.about {
+			top: 0.6rem;
+		}
+
+		.feature-list:not(.small) h3:before {
+			display: none;
+		}
+
+		.feature-list section {
+			padding-left: 4.5rem;
+		}
+
 
 /* Box */
 
