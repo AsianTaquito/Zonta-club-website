@@ -99,9 +99,9 @@ input, select, textarea {
 	}
 
 	body, input, textarea, select {
-		font-family: 'Source Sans Pro', sans-serif;
+		font-family: 'lato', sans-serif;
 		font-weight: 400;
-		color: #919499;
+		color: white;
 		font-size: 14pt;
 		line-height: 1.75em;
 		letter-spacing: 0.025em;
@@ -109,7 +109,7 @@ input, select, textarea {
 
 	h1, h2, h3, h4, h5, h6 {
 		font-weight: 700;
-		color: #484d55;
+		color: #F5BD47;
 	}
 
 		h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
@@ -123,7 +123,7 @@ input, select, textarea {
 		-ms-transition: color .25s ease-in-out;
 		transition: color .25s ease-in-out;
 		text-decoration: underline;
-		color: #717479;
+		color: #099AAD;
 	}
 
 		a:hover {
@@ -132,7 +132,7 @@ input, select, textarea {
 
 	strong, b {
 		font-weight: 700;
-		color: #484d55;
+		color: violet;
 	}
 
 	blockquote {
@@ -1465,7 +1465,7 @@ input, select, textarea {
 		}
 
 		header.style1 p {
-			color: #b1b4b9;
+			color: white;
 			display: block;
 			margin: 1.15em 0 0 0;
 			font-size: 1.3em;
@@ -1498,7 +1498,7 @@ input, select, textarea {
 			}
 
 			table.default thead {
-				background: #484d55;
+				background: black;
 				color: #fff;
 			}
 
@@ -1673,7 +1673,7 @@ input, select, textarea {
 		input[type="reset"]:hover,
 		button:hover,
 		.button:hover {
-			background-color: #f98780;
+			background-color: #9B74B3;
 		}
 
 		input[type="button"].large,
@@ -1690,7 +1690,7 @@ input, select, textarea {
 		input[type="reset"].style1,
 		button.style1,
 		.button.style1 {
-			background: #e97770 url("images/overlay.png");
+			background: #885BA6;
 			color: #fff;
 		}
 
@@ -1699,7 +1699,7 @@ input, select, textarea {
 			input[type="reset"].style1:hover,
 			button.style1:hover,
 			.button.style1:hover {
-				background-color: #f98780;
+				background-color: #9B74B3;
 			}
 
 			input[type="button"].style1:active,
@@ -1707,7 +1707,7 @@ input, select, textarea {
 			input[type="reset"].style1:active,
 			button.style1:active,
 			.button.style1:active {
-				background-color: #d96760;
+				background-color: #885BA6;
 			}
 
 		input[type="button"].style2,
@@ -1716,7 +1716,7 @@ input, select, textarea {
 		button.style2,
 		.button.style2 {
 			background: none;
-			color: #606167;
+			color: #9B74B3;
 			box-shadow: inset 0px 0px 2px 0px #a0a1a7;
 		}
 
@@ -1725,7 +1725,7 @@ input, select, textarea {
 			input[type="reset"].style2:hover,
 			button.style2:hover,
 			.button.style2:hover {
-				box-shadow: inset 0px 0px 2px 0px #606167;
+				background-color: #BEA3D2;
 			}
 
 			input[type="button"].style2:active,
@@ -1733,7 +1733,7 @@ input, select, textarea {
 			input[type="reset"].style2:active,
 			button.style2:active,
 			.button.style2:active {
-				box-shadow: inset 0px 0px 2px 0px #202127;
+				background-color: #885BA6;
 			}
 
 		input[type="button"].style3,
@@ -1741,7 +1741,7 @@ input, select, textarea {
 		input[type="reset"].style3,
 		button.style3,
 		.button.style3 {
-			background: #2f333b url("images/overlay.png");
+			background: #FACA6E;
 			color: #fff;
 		}
 
@@ -1750,7 +1750,7 @@ input, select, textarea {
 			input[type="reset"].style3:hover,
 			button.style3:hover,
 			.button.style3:hover {
-				background-color: #3f434b;
+				background-color: #FED692;
 			}
 
 			input[type="button"].style3:active,
@@ -1758,7 +1758,7 @@ input, select, textarea {
 			input[type="reset"].style3:active,
 			button.style3:active,
 			.button.style3:active {
-				background-color: #1f232b;
+				background-color: #FFE3B6;
 			}
 
 /* List */
@@ -1868,7 +1868,7 @@ input, select, textarea {
 		}
 
 		.feature-list h3 {
-			color: #e97770 !important;
+			color: #802528  !important;
 			margin: -0.35em 0 0.75em 0;
 			font-size: 1.15em;
 			letter-spacing: 0.05em;
@@ -1876,8 +1876,8 @@ input, select, textarea {
 
 			.feature-list h3:before {
 				display: block;
-				color: #fff;
-				background: #2f333b url("images/overlay.png");
+				color: white;
+				background: #2f333b;
 				border-radius: 2.5em;
 				text-align: center;
 				width: 2.5em;
@@ -2057,13 +2057,13 @@ input, select, textarea {
 			}
 
 		.wrapper.style1 {
-			background: #e97770 url("images/overlay.png");
+			background: #9D514D;
 			color: #eee;
 			color: rgba(255, 255, 255, 0.75);
 		}
 
 			.wrapper.style1 .title {
-				background: #e97770 url("images/overlay.png");
+				background: #9D514D;
 				color: #fff;
 			}
 
@@ -2072,11 +2072,11 @@ input, select, textarea {
 			}
 
 		.wrapper.style2 {
-			background: #fff;
+			background: #FED692;
 		}
 
 			.wrapper.style2 .title {
-				background: #fff;
+				background: #FED692;
 				color: #484d55;
 			}
 
@@ -2316,7 +2316,7 @@ input, select, textarea {
 	}
 
 		#highlights .highlight h3 {
-			color: #e97770;
+			color: #9D514D;
 			margin: 0 0 0.75em 0;
 			font-size: 1.15em;
 			letter-spacing: 0.05em;
