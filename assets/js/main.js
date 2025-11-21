@@ -31,6 +31,75 @@
 			alignment: 'center',
 			detach: false
 		});
+			
+	// Header image carousel
+	document.addEventListener("DOMContentLoaded", function () {
+		const header = document.getElementById("header");
+		const captionBox = document.getElementById("header-caption");
+		if (!header) return;
+
+		// Get the current page filename
+		const path = window.location.pathname;
+		const page = path.substring(path.lastIndexOf("/") + 1) || "index.html";
+
+		// Define images for each page (use objects with src and caption)
+		const imageSets = {
+			"index.html": [
+				{ src: "images/Header images/IndexHeader.JPG", caption: "" },
+				{ src: "images/Header images/IndexHeader01.JPG", caption: "" },
+				{ src: "images/Header images/IndexHeader02.jpg", caption: "" },
+				{ src: "images/Header images/IndexHeader03.JPG", caption: "" },
+				{ src: "images/Header images/IndexHeader04.JPG", caption: "" },
+				{ src: "images/Header images/IndexHeader05.JPG", caption: "" },
+				{ src: "images/Header images/Zonta Club Naples.jpeg", caption: "" }
+			],
+			"left-sidebar.html": [
+				{ src: "images/Header images/LeftHeader01.jpg", caption: "" },
+				{ src: "images/Header images/LeftHeader02.jpg", caption: "" },
+				{ src: "images/Header images/LeftHeader03.jpg", caption: "" },
+				{ src: "images/Header images/LeftHeader04.jpg", caption: "" },
+				{ src: "images/Header images/LeftHeader05.jpg", caption: "" }
+			],
+			"right-sidebar.html": [
+				{ src: "images/Header images/ScholarshipBanner01.jpeg", caption: "Memorial Scholarship Endowment Fund" },
+				{ src: "images/Header images/Scholarshipbanner02.jpeg", caption: "" },
+				{ src: "images/Header images/ScholarshipBanner03.webp", caption: "" }
+			]
+		};
+
+		// Fallback images if page not found
+		const defaultImages = [
+			{ src: "images/Header images/Zonta logo-cropped Jpeg.jpg", caption: "" }
+		];
+
+		// Pick the correct images for the current page
+		let images = imageSets[page] || defaultImages;
+
+		if (images.length === 0) {
+			images = defaultImages;
+		}
+
+		let index = 0;
+
+		function changeBackground() {
+			header.style.backgroundImage = `url('${images[index].src}')`;
+			if (captionBox) {
+				captionBox.textContent = images[index].caption || "";
+			}
+
+			index++;
+			if (index >= images.length) {
+				index = 0; 
+			}
+		}
+
+		// Initial image
+		changeBackground();
+
+		// Change background every 5 seconds
+		setInterval(changeBackground, 5000);
+	});
+
 
 	// Nav.
 

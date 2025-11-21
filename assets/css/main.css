@@ -2610,6 +2610,7 @@ input, textarea {
 		display: -webkit-flex;
 		display: -ms-flex;
 		display: flex;
+		flex: fit-content;
 		-moz-align-items: center;
 		-webkit-align-items: center;
 		-ms-align-items: center;
@@ -2620,9 +2621,11 @@ input, textarea {
 		justify-content: center;
 		position: relative;
 		height: 24em;
-		background-image: url("images\Zonta logo-cropped Jpeg.jpg");
 		background-size: cover;
 		padding: 0;
+		background-position: center; 
+		transition: background-image 1s ease-in-out;
+		overflow: hidden;
 	}
 
 		#header:before {
@@ -2632,12 +2635,32 @@ input, textarea {
 			left: 0;
 			width: 100%;
 			height: 100%;
-			background: url("");
 		}
 
 		.homepage #header {
 			height: 35em;
 		}
+
+	#header-caption {
+		position: absolute;
+		bottom: 1.5em;
+		left: 50%;
+		transform: translateX(-50%);
+		background: rgba(0, 0, 0, 0.6);
+		color: #fff;
+		padding: 0.6em 1em;
+		border-radius: 8px;
+		opacity: 0;
+		transition: opacity 0.4s ease;
+		font-size: 1em;
+		pointer-events: none; /* ignore mouse */
+	}
+
+	/* Show caption on hover */
+	#header:hover #header-caption {
+    	opacity: 1;
+	}
+
 
 
 /* Nav */
