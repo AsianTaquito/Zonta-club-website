@@ -109,7 +109,7 @@ input, select, textarea {
 
 	h1, h2, h3, h4, h5, h6 {
 		font-weight: 700;
-		color: #F5BD47;
+		color: #802528;
 	}
 
 		h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
@@ -2274,6 +2274,13 @@ input, textarea {
 
 		ul li {
 			padding-left: 0.5em;
+		}
+
+		ul.style1{
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: .5rem;
 		}
 
 		ul.style2 {
