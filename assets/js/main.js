@@ -65,9 +65,7 @@
 
 				
 	document.addEventListener("DOMContentLoaded", () => {
-    /* =========================================================
-       1. CART COUNTER IN NAVBAR
-    ========================================================== */
+    //CART COUNTER IN NAVBAR
     function updateCartCount() {
         const cart = JSON.parse(localStorage.getItem("cart")) || [];
         const count = cart.reduce((sum, item) => sum + item.quantity, 0);
@@ -82,9 +80,7 @@
     }
     updateCartCount();
 
-    /* =========================================================
-       2. PURCHASE NOW BUTTON (SHOP PAGE)
-    ========================================================== */
+    // PURCHASE NOW BUTTON (SHOP PAGE)
     if (document.querySelector('.purchase-button')) {
         document.querySelectorAll('.purchase-button').forEach(button => {
             button.addEventListener('click', event => {
@@ -109,9 +105,7 @@
         });
     }
 
-    /* =========================================================
-       3. ADD TO CART BUTTON (SHOP PAGE)
-    ========================================================== */
+    // ADD TO CART BUTTON (SHOP PAGE)
     if (document.querySelector('.add-to-cart')) {
         document.querySelectorAll('.add-to-cart').forEach(button => {
             button.addEventListener('click', event => {
@@ -136,9 +130,7 @@
         });
     }
 
-    /* =========================================================
-       4. CART PAGE (WITH QTY AND REMOVE BUTTONS)
-    ========================================================== */
+    // CART PAGE (WITH QTY AND REMOVE BUTTONS)
     if (document.getElementById("cart-body")) {
         let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
@@ -185,9 +177,7 @@
         renderCart();
     }
 
-    /* =========================================================
-       5. CHECKOUT PAGE (READ CART AND CALCULATE TOTALS)
-    ========================================================== */
+    // CHECKOUT PAGE (READ CART AND CALCULATE TOTALS)
     if (document.getElementById("checkout-body")) {
         const cart = JSON.parse(localStorage.getItem("cart")) || [];
         const tbody = document.getElementById("checkout-body");
@@ -223,9 +213,7 @@
         document.getElementById("grand-total").textContent = `$${grandTotal.toFixed(2)}`;
     }
 
-    /* =========================================================
-       6. HEADER IMAGE CAROUSEL
-    ========================================================== */
+    // HEADER IMAGE CAROUSEL
     const header = document.getElementById("header");
     const captionBox = document.getElementById("header-caption");
     if (header) {
