@@ -1,3 +1,86 @@
+<p align="center">
+
+  <!-- Project Type -->
+  <img src="https://img.shields.io/badge/HTML5-Website-orange?logo=html5&logoColor=white" alt="HTML5 Badge">
+  <img src="https://img.shields.io/badge/CSS3-Responsive%20Design-blue?logo=css3&logoColor=white" alt="CSS3 Badge">
+  <img src="https://img.shields.io/badge/JavaScript-Vanilla%20JS-yellow?logo=javascript&logoColor=white" alt="JavaScript Badge">
+
+  <!-- Features -->
+  <img src="https://img.shields.io/badge/Google%20Calendar-API%20Integration-lightgrey?logo=googlecalendar&logoColor=white" alt="Google Calendar API Badge">
+  <img src="https://img.shields.io/badge/Header%20Carousel-Image%20Rotation-purple" alt="Header Carousel Badge">
+
+  <!-- Repo Activity -->
+  <img src="https://img.shields.io/github/last-commit/AsianTaquito/Zonta-club-website" alt="Last Commit Badge">
+  <img src="https://img.shields.io/github/issues/AsianTaquito/Zonta-club-website" alt="Issues Badge">
+  <img src="https://img.shields.io/github/stars/AsianTaquito/Zonta-club-website" alt="GitHub Stars Badge">
+
+  <!-- License -->
+  <img src="https://img.shields.io/badge/License-CCA%203.0-green" alt="License Badge">
+
+  <!-- Deployment (optional) -->
+  <img src="https://img.shields.io/badge/GitHub%20Pages-Deployed-brightgreen?logo=github" alt="GitHub Pages Badge">
+
+</p>
+
+---
+
+# 📌 **Zonta Club of Naples – Website (Mock Project)**
+
+This project is a **mock website** created for the *Zonta Club of Naples*, based on the **Escape Velocity** HTML5 UP template.  
+It showcases a fully responsive, modern layout with:
+
+- Dynamic header image carousel  
+- Google Calendar API event integration  
+- Shopping cart system using LocalStorage  
+- Reusable JavaScript for multiple page interactions  
+- Flex-based responsive design  
+- Clean, accessible HTML5 markup  
+
+This project is designed for educational and demonstration purposes only.
+
+---
+
+# ✨ **Features**
+
+### 🎡 **Header Image Carousel**
+- Automatically rotates header images per page  
+- Supports captions  
+- Smooth transitions and fade effects  
+- Hover caption support  
+
+### 🛒 **Shopping Cart System**
+- Add to cart  
+- Remove items  
+- Increase/decrease quantity  
+- Checkout subtotal, tax, and total calculations  
+- All cart data saved in `localStorage`  
+
+### 📅 **Google Calendar Event Integration**
+- Automatically fetches upcoming events  
+- Displays events in a responsive 2-column layout  
+- Converts Google Calendar JSON events into readable listing  
+- Gracefully handles empty or unreachable calendars  
+- Fully responsive stacking layout with hover effects  
+
+### 🌐 **Fully Responsive Layout**
+- Mobile, tablet, and desktop support  
+- Automatic flex adjustments  
+- Clean typography and spacing  
+
+---
+
+# 🧩 **Tech Stack**
+
+- **HTML5**  
+- **CSS3** (responsive layout)  
+- **JavaScript (Vanilla JS)**  
+- **Google Calendar API**  
+- **LocalStorage API**  
+- **HTML5 UP Template (Escape Velocity)**  
+
+---
+
+
 Escape Velocity by HTML5 UP
 html5up.net | @ajlkn
 Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)

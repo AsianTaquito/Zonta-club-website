@@ -63,14 +63,16 @@
 					visibleClass: 'navPanel-visible'
 				});
 
-				
-	document.addEventListener("DOMContentLoaded", () => {
-    //CART COUNTER IN NAVBAR
+document.addEventListener("DOMContentLoaded", () => {
+
+    // NavBar Cart counter
     function updateCartCount() {
         const cart = JSON.parse(localStorage.getItem("cart")) || [];
         const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+
         const badge = document.getElementById("cart-count");
         if (!badge) return;
+
         if (count > 0) {
             badge.textContent = count;
             badge.style.display = "inline-block";
@@ -80,81 +82,78 @@
     }
     updateCartCount();
 
-    // PURCHASE NOW BUTTON (SHOP PAGE)
-    if (document.querySelector('.purchase-button')) {
-        document.querySelectorAll('.purchase-button').forEach(button => {
-            button.addEventListener('click', event => {
-                event.preventDefault();
-                const productSection = button.closest('section.highlight');
-                const productName = productSection.querySelector('h3').textContent.trim();
-                const productPrice = parseFloat(productSection.querySelector('p').getAttribute('data-price'));
-                const productId = button.getAttribute('data-id') || productName;
 
-                let cart = JSON.parse(localStorage.getItem("cart")) || [];
-                const existingItem = cart.find(item => item.id === productId);
-                if (existingItem) {
-                    existingItem.quantity += 1;
-                } else {
-                    cart.push({ id: productId, name: productName, price: productPrice, quantity: 1 });
-                }
-                localStorage.setItem("cart", JSON.stringify(cart));
 
-                updateCartCount();
-                window.location.href = "checkout.html";
-            });
-        });
+    // Shop Page Buttons
+    function addItemToCart(productSection, productId) {
+        const productName = productSection.querySelector("h3").textContent.trim();
+        const productPrice = parseFloat(productSection.querySelector("p").getAttribute("data-price"));
+        const id = productId || productName;
+
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        const existingItem = cart.find(item => item.id === id);
+
+        if (existingItem) {
+            existingItem.quantity++;
+        } else {
+            cart.push({ id, name: productName, price: productPrice, quantity: 1 });
+        }
+
+        localStorage.setItem("cart", JSON.stringify(cart));
+        updateCartCount();
     }
 
-    // ADD TO CART BUTTON (SHOP PAGE)
-    if (document.querySelector('.add-to-cart')) {
-        document.querySelectorAll('.add-to-cart').forEach(button => {
-            button.addEventListener('click', event => {
-                event.preventDefault();
-                const productSection = button.closest('section.highlight');
-                const productName = productSection.querySelector('h3').textContent.trim();
-                const productPrice = parseFloat(productSection.querySelector('p').getAttribute('data-price'));
-                const productId = button.getAttribute('data-id') || productName;
-
-                let cart = JSON.parse(localStorage.getItem("cart")) || [];
-                const existingItem = cart.find(item => item.id === productId);
-                if (existingItem) {
-                    existingItem.quantity += 1;
-                } else {
-                    cart.push({ id: productId, name: productName, price: productPrice, quantity: 1 });
-                }
-                localStorage.setItem("cart", JSON.stringify(cart));
-
-                updateCartCount();
-                alert(`${productName} added to cart!`);
-            });
+    // Purchase now
+    document.querySelectorAll(".purchase-button").forEach(button => {
+        button.addEventListener("click", e => {
+            e.preventDefault();
+            const section = button.closest("section.highlight");
+            addItemToCart(section, button.dataset.id);
+            window.location.href = "checkout.html";
         });
-    }
+    });
 
-    // CART PAGE (WITH QTY AND REMOVE BUTTONS)
+    // Add to cart
+    document.querySelectorAll(".add-to-cart").forEach(button => {
+        button.addEventListener("click", e => {
+            e.preventDefault();
+            const section = button.closest("section.highlight");
+            addItemToCart(section, button.dataset.id);
+            alert("Item added to cart!");
+        });
+    });
+
+
+
+    // Cart Page  
     if (document.getElementById("cart-body")) {
         let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
         function renderCart() {
             const tbody = document.getElementById("cart-body");
             tbody.innerHTML = "";
+
             let subtotal = 0;
-            cart.forEach((item, i) => {
+
+            cart.forEach((item, index) => {
                 const total = item.price * item.quantity;
                 subtotal += total;
+
                 tbody.innerHTML += `
                     <tr>
                         <td>${item.name}</td>
                         <td>
-                            <button class="qty-btn" data-index="${i}" data-change="-1">-</button>
+                            <button class="qty-btn" data-index="${index}" data-change="-1">-</button>
                             ${item.quantity}
-                            <button class="qty-btn" data-index="${i}" data-change="1">+</button>
+                            <button class="qty-btn" data-index="${index}" data-change="1">+</button>
                         </td>
                         <td>$${item.price.toFixed(2)}</td>
                         <td>$${total.toFixed(2)}</td>
-                        <td><button class="remove-btn" data-index="${i}">X</button></td>
+                        <td><button class="remove-btn" data-index="${index}">X</button></td>
                     </tr>
                 `;
             });
+
             document.getElementById("subtotal").textContent = `$${subtotal.toFixed(2)}`;
             localStorage.setItem("cart", JSON.stringify(cart));
             updateCartCount();
@@ -162,14 +161,13 @@
 
         document.addEventListener("click", e => {
             if (e.target.classList.contains("qty-btn")) {
-                const index = e.target.dataset.index;
-                const change = parseInt(e.target.dataset.change);
-                cart[index].quantity += change;
-                if (cart[index].quantity <= 0) cart.splice(index, 1);
+                const i = e.target.dataset.index;
+                cart[i].quantity += parseInt(e.target.dataset.change);
+                if (cart[i].quantity <= 0) cart.splice(i, 1);
                 renderCart();
-            } else if (e.target.classList.contains("remove-btn")) {
-                const index = e.target.dataset.index;
-                cart.splice(index, 1);
+            }
+            if (e.target.classList.contains("remove-btn")) {
+                cart.splice(e.target.dataset.index, 1);
                 renderCart();
             }
         });
@@ -177,7 +175,7 @@
         renderCart();
     }
 
-    // CHECKOUT PAGE (READ CART AND CALCULATE TOTALS)
+    // Checkout Page
     if (document.getElementById("checkout-body")) {
         const cart = JSON.parse(localStorage.getItem("cart")) || [];
         const tbody = document.getElementById("checkout-body");
@@ -185,37 +183,38 @@
 
         if (cart.length === 0) {
             tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;">Your cart is empty.</td></tr>`;
-            document.getElementById("subtotal").textContent = "$0.00";
-            document.getElementById("tax").textContent = "$0.00";
-            document.getElementById("grand-total").textContent = "$0.00";
-            return;
+        } else {
+            let subtotal = 0;
+
+            cart.forEach(item => {
+                const total = item.price * item.quantity;
+                subtotal += total;
+
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${item.name}</td>
+                        <td>${item.quantity}</td>
+                        <td>$${item.price.toFixed(2)}</td>
+                        <td>$${total.toFixed(2)}</td>
+                    </tr>
+                `;
+            });
+
+            const tax = subtotal * taxRate;
+            const grandTotal = subtotal + tax;
+
+            document.getElementById("subtotal").textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById("tax").textContent = `$${tax.toFixed(2)}`;
+            document.getElementById("grand-total").textContent = `$${grandTotal.toFixed(2)}`;
         }
-
-        let subtotal = 0;
-        cart.forEach(item => {
-            const total = item.price * item.quantity;
-            subtotal += total;
-            tbody.innerHTML += `
-                <tr>
-                    <td>${item.name}</td>
-                    <td>${item.quantity}</td>
-                    <td>$${item.price.toFixed(2)}</td>
-                    <td>$${total.toFixed(2)}</td>
-                </tr>
-            `;
-        });
-
-        const tax = subtotal * taxRate;
-        const grandTotal = subtotal + tax;
-
-        document.getElementById("subtotal").textContent = `$${subtotal.toFixed(2)}`;
-        document.getElementById("tax").textContent = `$${tax.toFixed(2)}`;
-        document.getElementById("grand-total").textContent = `$${grandTotal.toFixed(2)}`;
     }
 
-    // HEADER IMAGE CAROUSEL
+
+
+    // Header Carousel
     const header = document.getElementById("header");
     const captionBox = document.getElementById("header-caption");
+
     if (header) {
         const path = window.location.pathname;
         const page = path.substring(path.lastIndexOf("/") + 1) || "index.html";
@@ -244,13 +243,15 @@
             ]
         };
 
-        const defaultImages = [{ src: "images/Header images/Zonta logo-cropped Jpeg.jpg", caption: "" }];
-        let images = imageSets[page] || defaultImages;
+        const images = imageSets[page] || [
+            { src: "images/Header images/Zonta logo-cropped Jpeg.jpg", caption: "" }
+        ];
+
         let index = 0;
 
         function changeBackground() {
             header.style.backgroundImage = `url('${images[index].src}')`;
-            captionBox.textContent = images[index].caption || "";
+            captionBox.textContent = images[index].caption;
             index = (index + 1) % images.length;
         }
 
@@ -258,5 +259,60 @@
         setInterval(changeBackground, 5000);
     }
 
+    // Calendar
+    const eventsList = document.getElementById("events-list");
+
+    if (eventsList) {
+        const API_KEY = "YOUR_API_KEY";
+        const CAL_ID = "YOUR_CALENDAR_ID";
+
+        const url =
+            `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(CAL_ID)}/events` +
+            `?key=${API_KEY}&timeMin=${new Date().toISOString()}` +
+            "&singleEvents=true&orderBy=startTime&maxResults=10";
+
+        fetch(url)
+            .then(res => res.json())
+            .then(data => {
+                if (!data.items || data.items.length === 0) {
+                    eventsList.innerHTML = `<li class="no-events-message">No upcoming events.</li>`;
+                    return;
+                }
+
+                data.items.forEach(event => {
+                    const li = document.createElement("li");
+
+                    const start = event.start.dateTime || event.start.date;
+                    const date = new Date(start);
+
+                    const dateStr = date.toLocaleDateString("en-US", {
+                        weekday: "short",
+                        month: "short",
+                        day: "numeric"
+                    });
+
+                    const timeStr = event.start.dateTime
+                        ? date.toLocaleTimeString("en-US", {
+                            hour: "numeric",
+                            minute: "2-digit"
+                        })
+                        : "All day";
+
+                    li.innerHTML = `
+                        <strong>${event.summary || "Untitled Event"}</strong><br>
+                        ${dateStr} &nbsp; • &nbsp; ${timeStr}
+                    `;
+
+                    eventsList.appendChild(li);
+                });
+            })
+            .catch(err => {
+                console.error("Calendar API error:", err);
+                eventsList.innerHTML = `<li class="no-events-message">Unable to load events.</li>`;
+            });
+    }
+
 });
+
+
 })(jQuery);

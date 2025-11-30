@@ -25,12 +25,12 @@ section, summary, time, mark, audio, video {
 	font-size: 100%;
 	font: inherit;
 	vertical-align: baseline;
-	cursor: default;
 }
 
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
-	display: block;}
+	display: block;
+	cursor: default;}
 
 body {
 	line-height: 1;
@@ -214,6 +214,13 @@ input, select, textarea {
 			#events-list li:hover {
 				transform: translateY(-5px);
 				box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+			}
+
+	.no-events-message {
+				text-align: center;
+				padding: 2em 0;
+				font-size: 1.15em;
+				opacity: 0.7;
 			}
 
 /* Container */
