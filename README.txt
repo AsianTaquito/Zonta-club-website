@@ -81,15 +81,6 @@ This project is designed for educational and demonstration purposes only.
 
 ---
 
-# 📦 Installation
-
-1. Clone the repository:
-```bash
-git clone https://github.com/AsianTaquito/Zonta-club-website.git
-
-
----
-
 
 Escape Velocity by HTML5 UP
 html5up.net | @ajlkn
