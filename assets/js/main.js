@@ -62,94 +62,76 @@
 					target: $body,
 					visibleClass: 'navPanel-visible'
 				});
-
 document.addEventListener("DOMContentLoaded", () => {
 
-    // NavBar Cart counter
+    // NavBar Cart Counter 
     function updateCartCount() {
         const cart = JSON.parse(localStorage.getItem("cart")) || [];
         const count = cart.reduce((sum, item) => sum + item.quantity, 0);
-
         const badge = document.getElementById("cart-count");
         if (!badge) return;
-
-        if (count > 0) {
-            badge.textContent = count;
-            badge.style.display = "inline-block";
-        } else {
-            badge.style.display = "none";
-        }
+        badge.textContent = count > 0 ? count : "";
+        badge.style.display = count > 0 ? "inline-block" : "none";
     }
     updateCartCount();
 
-
-
-    // Shop Page Buttons
-    function addItemToCart(productSection, productId) {
-        const productName = productSection.querySelector("h3").textContent.trim();
-        const productPrice = parseFloat(productSection.querySelector("p").getAttribute("data-price"));
+    // Shop Page Buttons 
+    function addItemToCart(section, productId) {
+        const productName = section.querySelector("h3").textContent.trim();
+        const productPrice = parseFloat(section.querySelector("p").getAttribute("data-price"));
         const id = productId || productName;
 
         let cart = JSON.parse(localStorage.getItem("cart")) || [];
         const existingItem = cart.find(item => item.id === id);
 
-        if (existingItem) {
-            existingItem.quantity++;
-        } else {
-            cart.push({ id, name: productName, price: productPrice, quantity: 1 });
-        }
+        if (existingItem) existingItem.quantity++;
+        else cart.push({ id, name: productName, price: productPrice, quantity: 1 });
 
         localStorage.setItem("cart", JSON.stringify(cart));
         updateCartCount();
     }
 
-    // Purchase now
-    document.querySelectorAll(".purchase-button").forEach(button => {
-        button.addEventListener("click", e => {
+    document.querySelectorAll(".purchase-button").forEach(btn => {
+        btn.addEventListener("click", e => {
             e.preventDefault();
-            const section = button.closest("section.highlight");
-            addItemToCart(section, button.dataset.id);
+            const section = btn.closest("section.highlight");
+            addItemToCart(section, btn.dataset.id);
             window.location.href = "checkout.html";
         });
     });
 
-    // Add to cart
-    document.querySelectorAll(".add-to-cart").forEach(button => {
-        button.addEventListener("click", e => {
+    document.querySelectorAll(".add-to-cart").forEach(btn => {
+        btn.addEventListener("click", e => {
             e.preventDefault();
-            const section = button.closest("section.highlight");
-            addItemToCart(section, button.dataset.id);
+            const section = btn.closest("section.highlight");
+            addItemToCart(section, btn.dataset.id);
             alert("Item added to cart!");
         });
     });
 
-
-
-    // Cart Page  
+    // Cart Page 
     if (document.getElementById("cart-body")) {
         let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
         function renderCart() {
             const tbody = document.getElementById("cart-body");
             tbody.innerHTML = "";
-
             let subtotal = 0;
 
-            cart.forEach((item, index) => {
+            cart.forEach((item, i) => {
                 const total = item.price * item.quantity;
                 subtotal += total;
-
                 tbody.innerHTML += `
                     <tr>
                         <td>${item.name}</td>
                         <td>
-                            <button class="qty-btn" data-index="${index}" data-change="-1">-</button>
+                            <button class="qty-btn" data-index="${i}" data-change="-1">-</button>
                             ${item.quantity}
-                            <button class="qty-btn" data-index="${index}" data-change="1">+</button>
+                            <button class="qty-btn" data-index="${i}" data-change="1">+</button>
                         </td>
                         <td>$${item.price.toFixed(2)}</td>
                         <td>$${total.toFixed(2)}</td>
-                        <td><button class="remove-btn" data-index="${index}">X</button></td>
+                        <td><button class="remove-btn" data-index="${i}">X</button></td>
                     </tr>
                 `;
             });
@@ -183,13 +165,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (cart.length === 0) {
             tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;">Your cart is empty.</td></tr>`;
+            ["subtotal", "tax", "grand-total"].forEach(id => document.getElementById(id).textContent = "$0.00");
         } else {
             let subtotal = 0;
-
             cart.forEach(item => {
                 const total = item.price * item.quantity;
                 subtotal += total;
-
                 tbody.innerHTML += `
                     <tr>
                         <td>${item.name}</td>
@@ -209,67 +190,76 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-
-
     // Header Carousel
     const header = document.getElementById("header");
     const captionBox = document.getElementById("header-caption");
 
-    if (header) {
-        const path = window.location.pathname;
-        const page = path.substring(path.lastIndexOf("/") + 1) || "index.html";
+    if (header && captionBox) {
+        const page = window.location.pathname.split("/").pop() || "index.html";
 
         const imageSets = {
             "index.html": [
-                { src: "images/Header images/IndexHeader.JPG", caption: "" },
+                { src: "images/Header images/IndexHeader.JPG", caption: "Zonta international district meeting" },
                 { src: "images/Header images/IndexHeader01.JPG", caption: "" },
-                { src: "images/Header images/IndexHeader02.jpg", caption: "" },
-                { src: "images/Header images/IndexHeader03.JPG", caption: "" },
-                { src: "images/Header images/IndexHeader04.JPG", caption: "" },
-                { src: "images/Header images/IndexHeader05.JPG", caption: "" },
+                { src: "images/Header images/IndexHeader02.jpg", caption: "Zonta Club of Naples" },
+                { src: "images/Header images/IndexHeader03.jpg", caption: "" },
+                { src: "images/Header images/IndexHeader04.jpeg", caption: "" },
+                { src: "images/Header images/IndexHeader05.jpg", caption: "" },
                 { src: "images/Header images/Zonta Club Naples.jpeg", caption: "" }
             ],
             "left-sidebar.html": [
-                { src: "images/Header images/LeftHeader01.jpg", caption: "" },
-                { src: "images/Header images/LeftHeader02.jpg", caption: "" },
-                { src: "images/Header images/LeftHeader03.jpg", caption: "" },
-                { src: "images/Header images/LeftHeader04.jpg", caption: "" },
-                { src: "images/Header images/LeftHeader05.jpg", caption: "" }
+                { src: "images/Header images/LeftHeader01.png", caption: "100 Years of zonta" },
+                { src: "images/Header images/LeftHeader02.jpg", caption: "Club Brunch" },
+                { src: "images/Header images/LeftHeader03.jpg", caption: "District 11 Awards" },
+                { src: "images/Header images/LeftHeader04.jpeg", caption: "" },
+                { src: "images/Header images/LeftHeader05.jpg", caption: "Community Service" }
             ],
             "right-sidebar.html": [
                 { src: "images/Header images/ScholarshipBanner01.jpeg", caption: "Memorial Scholarship Endowment Fund" },
-                { src: "images/Header images/Scholarshipbanner02.jpeg", caption: "" },
-                { src: "images/Header images/ScholarshipBanner03.webp", caption: "" }
+                { src: "images/Header images/Scholarshipbanner02.jpeg", caption: "A thing they did" },
+                { src: "images/Header images/ScholarshipBanner03.webp", caption: "25k check for something"}
             ]
         };
 
-        const images = imageSets[page] || [
-            { src: "images/Header images/Zonta logo-cropped Jpeg.jpg", caption: "" }
-        ];
-
+        const images = imageSets[page] || [{ src: "images/Header images/Zonta logo-cropped Jpeg.jpg", caption: "Zonta Club Logo" }];
         let index = 0;
 
         function changeBackground() {
             header.style.backgroundImage = `url('${images[index].src}')`;
-            captionBox.textContent = images[index].caption;
+            captionBox.textContent = images[index].caption || "";
             index = (index + 1) % images.length;
         }
 
         changeBackground();
         setInterval(changeBackground, 5000);
+
+        // Make caption follow the mouse
+        header.addEventListener("mousemove", e => {
+            // Hide caption box if theres no caption
+            if(!images[index === 0 ? images.length - 1 : index - 1].caption) {
+                captionBox.style.opacity = 0;
+                return;
+            }
+
+            const rect = header.getBoundingClientRect();
+            captionBox.style.left = `${e.clientX - rect.left + 15}px`;
+            captionBox.style.top = `${e.clientY - rect.top + 15}px`;
+            captionBox.style.opacity = 1;
+        });
+
+        header.addEventListener("mouseleave", () => {
+            captionBox.style.opacity = 0;
+        });
     }
 
-    // Calendar
+    // Google Calendar Events 
     const eventsList = document.getElementById("events-list");
 
     if (eventsList) {
         const API_KEY = "YOUR_API_KEY";
         const CAL_ID = "YOUR_CALENDAR_ID";
 
-        const url =
-            `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(CAL_ID)}/events` +
-            `?key=${API_KEY}&timeMin=${new Date().toISOString()}` +
-            "&singleEvents=true&orderBy=startTime&maxResults=10";
+        const url = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(CAL_ID)}/events?key=${API_KEY}&timeMin=${new Date().toISOString()}&singleEvents=true&orderBy=startTime&maxResults=10`;
 
         fetch(url)
             .then(res => res.json())
@@ -281,7 +271,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 data.items.forEach(event => {
                     const li = document.createElement("li");
-
                     const start = event.start.dateTime || event.start.date;
                     const date = new Date(start);
 
@@ -292,17 +281,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     });
 
                     const timeStr = event.start.dateTime
-                        ? date.toLocaleTimeString("en-US", {
-                            hour: "numeric",
-                            minute: "2-digit"
-                        })
+                        ? date.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })
                         : "All day";
 
-                    li.innerHTML = `
-                        <strong>${event.summary || "Untitled Event"}</strong><br>
-                        ${dateStr} &nbsp; • &nbsp; ${timeStr}
-                    `;
-
+                    li.innerHTML = `<strong>${event.summary || "Untitled Event"}</strong><br>${dateStr} • ${timeStr}`;
                     eventsList.appendChild(li);
                 });
             })
@@ -313,6 +295,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 });
+
 
 
 })(jQuery);

@@ -2701,18 +2701,17 @@ input, textarea {
 
 	#header-caption {
 		position: absolute;
-		bottom: 1.5em;
-		left: 50%;
-		transform: translateX(-50%);
 		background: rgba(0, 0, 0, 0.6);
 		color: #fff;
 		padding: 0.6em 1em;
 		border-radius: 8px;
 		opacity: 0;
-		transition: opacity 0.4s ease;
+		transition: opacity 0.2s ease;
 		font-size: 1em;
 		pointer-events: none; /* ignore mouse */
-	}
+		white-space: nowrap;   /* prevent line wrap */
+}
+
 
 	/* Show caption on hover */
 	#header:hover #header-caption {
