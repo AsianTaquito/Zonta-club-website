@@ -1,27 +1,18 @@
-<p align="center">
+![HTML5 Badge](https://img.shields.io/badge/HTML5-Website-orange?logo=html5&logoColor=white)
+![CSS3 Badge](https://img.shields.io/badge/CSS3-Responsive%20Design-blue?logo=css3&logoColor=white)
+![JavaScript Badge](https://img.shields.io/badge/JavaScript-Vanilla%20JS-yellow?logo=javascript&logoColor=white)
 
-  <!-- Tech Stack -->
-  <img src="https://img.shields.io/badge/HTML5-Website-orange?logo=html5&logoColor=white" alt="HTML5 Badge">
-  <img src="https://img.shields.io/badge/CSS3-Responsive%20Design-blue?logo=css3&logoColor=white" alt="CSS3 Badge">
-  <img src="https://img.shields.io/badge/JavaScript-Vanilla%20JS-yellow?logo=javascript&logoColor=white" alt="JS Badge">
+![Google Calendar Badge](https://img.shields.io/badge/Google%20Calendar-API%20Integration-lightgrey?logo=googlecalendar&logoColor=white)
+![Header Carousel Badge](https://img.shields.io/badge/Header%20Carousel-Image%20Rotation-purple)
+![Shopping Cart Badge](https://img.shields.io/badge/Shopping%20Cart-LocalStorage-green)
 
-  <!-- Features -->
-  <img src="https://img.shields.io/badge/Google%20Calendar-API%20Integration-lightgrey?logo=googlecalendar&logoColor=white" alt="Google Calendar Badge">
-  <img src="https://img.shields.io/badge/Header%20Carousel-Image%20Rotation-purple" alt="Carousel Badge">
-  <img src="https://img.shields.io/badge/Shopping%20Cart-LocalStorage-green" alt="Shopping Cart Badge">
+![Last Commit](https://img.shields.io/github/last-commit/AsianTaquito/Zonta-club-website)
+![Issues](https://img.shields.io/github/issues/AsianTaquito/Zonta-club-website)
+![GitHub Stars](https://img.shields.io/github/stars/AsianTaquito/Zonta-club-website?style=social)
 
-  <!-- Repo Activity -->
-  <img src="https://img.shields.io/github/last-commit/AsianTaquito/Zonta-club-website" alt="Last Commit Badge">
-  <img src="https://img.shields.io/github/issues/AsianTaquito/Zonta-club-website" alt="Issues Badge">
-  <img src="https://img.shields.io/github/stars/AsianTaquito/Zonta-club-website?style=social" alt="GitHub Stars Badge">
+![License](https://img.shields.io/badge/License-CCA%203.0-blue)
+![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Deployed-brightgreen?logo=github)
 
-  <!-- License -->
-  <img src="https://img.shields.io/badge/License-CCA%203.0-blue" alt="License Badge">
-
-  <!-- Deployment -->
-  <img src="https://img.shields.io/badge/GitHub%20Pages-Deployed-brightgreen?logo=github" alt="GitHub Pages Badge">
-
-</p>
 
 ---
 
