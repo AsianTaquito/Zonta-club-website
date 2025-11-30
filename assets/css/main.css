@@ -24,7 +24,9 @@ section, summary, time, mark, audio, video {
 	border: 0;
 	font-size: 100%;
 	font: inherit;
-	vertical-align: baseline;}
+	vertical-align: baseline;
+	cursor: default;
+}
 
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
@@ -174,6 +176,45 @@ input, select, textarea {
 	p, ul, ol, dl, table, blockquote, form {
 		margin-bottom: 2em;
 	}
+
+	/* calendar */
+	#upcoming-events .container {
+		max-width: 1000px;
+		margin: 0 auto;
+		padding: 2em 1.5em;
+		}
+
+			#events-list {
+				list-style: none;
+				padding: 0;
+				margin: 0;
+				display: flex;
+				flex-wrap: wrap;
+				gap: 1.5em;
+			}
+
+			#events-list li {
+				background: white;
+				padding: 1.25em 1.5em;
+				border-radius: 12px;
+				box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+				font-size: 1.05em;
+				line-height: 1.5em;
+				color: #333;
+				flex: 1 1 calc(50% - 1.5em);   
+				box-sizing: border-box;
+				transition: transform 0.25s ease, box-shadow 0.25s ease;
+			}
+
+			#events-list li strong {
+				font-size: 1.15em;
+				color: #9D514D;
+			}
+			
+			#events-list li:hover {
+				transform: translateY(-5px);
+				box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+			}
 
 /* Container */
 
@@ -1689,8 +1730,10 @@ input, select, textarea {
 				-ms-transform: translateX(0);
 				transform: translateX(0);
 			}
+			
 
 	}
+
 
 /* Small */
 
@@ -1867,6 +1910,7 @@ input, select, textarea {
 					line-height: 1.25em;
 					padding: 1.25em;
 				}
+
 
 		/* Features */
 
