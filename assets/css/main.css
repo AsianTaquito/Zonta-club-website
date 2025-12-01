@@ -2207,6 +2207,8 @@ input, textarea {
 		display: inline-block;
 		background: #444;
 		text-align: center;
+		justify-content: center;
+		align-items: center;
 		text-transform: uppercase;
 		font-weight: 700;
 		letter-spacing: 0.25em;
