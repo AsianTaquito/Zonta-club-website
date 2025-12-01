@@ -2318,6 +2318,33 @@ input, textarea {
 				background-color: #FFE3B6;
 			}
 
+			/* Force payment buttons to perfectly center SVGs */
+			#payment-buttons {
+				display: flex;
+				justify-content: center;
+				gap: 1em; 
+				flex-wrap: wrap;
+			}
+
+			#payment-buttons button {
+				display: flex;           
+				justify-content: center; 
+				align-items: center;     
+				padding: 0 1em;          
+				height: 60px;            
+				min-width: 150px;       
+				line-height: normal;     
+			}
+
+			#payment-buttons button svg {
+				height: 40px;  
+				width: auto;    
+				display: block; 
+			}
+
+
+
+
 /* List */
 
 	ul {
