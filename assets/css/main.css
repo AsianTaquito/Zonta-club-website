@@ -2037,7 +2037,7 @@ input, textarea {
 		}
 
 			table.default tbody tr:nth-child(2n+2) {
-				background: #f4f4f4;
+				background: #802528;
 			}
 
 			table.default td {
@@ -2056,7 +2056,7 @@ input, textarea {
 			}
 
 			table.default tfoot {
-				background: #802528;
+				background: black;
 			}
 
 /* Form */
@@ -2706,8 +2706,9 @@ input, textarea {
 		-ms-justify-content: center;
 		justify-content: center;
 		position: relative;
-		height: 24em;
+		height: 28em;
 		background-size: cover;
+		background-position: center 30% !important;
 		padding: 0;
 		background-position: center; 
 		transition: background-image 1s ease-in-out;
@@ -3388,32 +3389,33 @@ input, textarea {
 
 	@media screen and (min-width: 737px) {
     .cart-text {
-        display: none; /* Hide text on larger screens */
+        display: none; 
     }
     svg {
-        display: inline; /* Show SVG on larger screens */
+        display: inline; 
     }
-
+		
 	/* Center product contents */
 	.highlight {
 		text-align: center !important;
 	}
 
-	/* Center buttons and override floating */
+	/* Buttons container: inline, centered */
 	.highlight .actions {
 		display: flex !important;
 		justify-content: center !important;
 		align-items: center !important;
-		gap: 0.5rem !important;
+		gap: 0.75rem !important;
 		padding: 0 !important;
 		margin-top: 1rem !important;
 		float: none !important;
 		position: static !important;
 		width: 100% !important;
 		box-sizing: border-box !important;
+		flex-wrap: nowrap !important; /* prevent wrapping */
 	}
 
-	/* Make each list item inline-flex */
+	/* List items */
 	.highlight .actions li {
 		margin: 0 !important;
 		list-style: none !important;
@@ -3423,19 +3425,32 @@ input, textarea {
 		padding: 0 !important;
 	}
 
-	/* Make buttons equal size and aligned */
-	.highlight .actions .button {
+	/* Buttons: same size */
+		.highlight .actions .button {
 		display: inline-flex !important;
 		align-items: center !important;
 		justify-content: center !important;
+		flex: 0 0 140px !important; /* fixed width */
+		padding: 0.5rem 0.75rem !important;
 		text-align: center !important;
 		box-sizing: border-box !important;
-		flex: 0 0 140px !important;
-		white-space: nowrap;
+		white-space: nowrap !important;
 	}
 
-	/* Responsive: stack buttons on small screens */
-	@media (max-width: 400px) {
+	/* Force buttons inline*/
+	@media (max-width: 768px) {
+		.highlight .actions {
+			flex-direction: row !important;
+			flex-wrap: nowrap !important;
+		}
+		.highlight .actions .button {
+			flex: 1 1 auto !important;      
+			max-width: 140px !important;
+		}
+	}
+
+	/* Only stack buttons on very small screens */
+	@media (max-width: 480px) {
 		.highlight .actions {
 			flex-direction: column !important;
 			gap: 0.5rem !important;
@@ -3443,7 +3458,9 @@ input, textarea {
 		.highlight .actions .button {
 			flex: 0 0 auto !important;
 			width: 100% !important;
+			height: 44px !important;
 		}
 	}
+
 
 }
