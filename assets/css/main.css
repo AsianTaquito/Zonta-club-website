@@ -2671,11 +2671,11 @@ input, textarea {
 			}
 
 		.wrapper.style3 {
-			background: #f3f3f3 url("images/overlay.png");
+			background: #f3f3f3;
 		}
 
 			.wrapper.style3 .title {
-				background: #f3f3f3 url("images/overlay.png");
+				background: #f3f3f3 ;
 				color: #484d55;
 			}
 
@@ -3430,7 +3430,7 @@ input, textarea {
 		display: inline-flex !important;
 		align-items: center !important;
 		justify-content: center !important;
-		flex: 0 0 140px !important; /* fixed width */
+		flex: 0 0 200px !important; /* fixed width */
 		padding: 0.5rem 0.75rem !important;
 		text-align: center !important;
 		box-sizing: border-box !important;
@@ -3446,19 +3446,6 @@ input, textarea {
 		.highlight .actions .button {
 			flex: 1 1 auto !important;      
 			max-width: 140px !important;
-		}
-	}
-
-	/* Only stack buttons on very small screens */
-	@media (max-width: 480px) {
-		.highlight .actions {
-			flex-direction: column !important;
-			gap: 0.5rem !important;
-		}
-		.highlight .actions .button {
-			flex: 0 0 auto !important;
-			width: 100% !important;
-			height: 44px !important;
 		}
 	}
 
