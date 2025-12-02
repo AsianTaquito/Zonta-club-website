@@ -253,7 +253,7 @@
                 ]
             };
 
-            const images = imageSets[page] || [{ src: "images/Header images/Zonta logo-cropped Jpeg.jpg", caption: "Zonta Club Logo" }];
+            const images = imageSets[page] || [{ src: "images/Header images/Zonta logo-cropped Jpeg.jpg"}];
             let index = 0;
 
             function changeBackground() {
