@@ -225,7 +225,8 @@
         const header = document.getElementById("header");
         const captionBox = document.getElementById("header-caption");
 
-        if (header && captionBox) {
+        if (header && captionBox) { 
+
             let page = window.location.pathname.split("/").pop() || "index.html";
             page = page.split("?")[0].split("#")[0].replace(/\/$/, "");
 
@@ -240,7 +241,6 @@
                     { src: "images/Header images/Zonta Club Naples.jpeg", caption: "" }
                 ],
                 "left-sidebar.html": [
-                    { src: "images/Header images/LeftHeader01.png", caption: "100 Years of zonta" },
                     { src: "images/Header images/LeftHeader02.jpg", caption: "Club Brunch" },
                     { src: "images/Header images/LeftHeader03.jpg", caption: "District 11 Awards" },
                     { src: "images/Header images/LeftHeader04.jpeg", caption: "" },
@@ -285,52 +285,73 @@
             });
         }
 
-        // Google Calendar Events 
+       // Google Calendar Events 
         const eventsList = document.getElementById("events-list");
 
         if (eventsList) {
             const API_KEY = "YOUR_API_KEY";
             const CAL_ID = "YOUR_CALENDAR_ID";
 
-            const url = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(CAL_ID)}/events?key=${API_KEY}&timeMin=${new Date().toISOString()}&singleEvents=true&orderBy=startTime&maxResults=10`;
+            function loadCalendarEvents() {
+                const now = new Date();
+                const thirtyDaysFromNow = new Date();
+                thirtyDaysFromNow.setDate(thirtyDaysFromNow.getDate() + 30);
 
-            fetch(url)
-                .then(res => res.json())
-                .then(data => {
-                    if (!data.items || data.items.length === 0) {
-                        eventsList.innerHTML = `<li class="no-events-message">No upcoming events.</li>`;
-                        return;
-                    }
+                const url = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(CAL_ID)}/events?` +
+                    `key=${API_KEY}` +
+                    `&timeMin=${now.toISOString()}` +
+                    `&timeMax=${thirtyDaysFromNow.toISOString()}` +
+                    `&singleEvents=true` +
+                    `&orderBy=startTime` +
+                    `&maxResults=20`;
 
-                    data.items.forEach(event => {
-                        const li = document.createElement("li");
-                        const start = event.start.dateTime || event.start.date;
-                        const date = new Date(start);
+                fetch(url)
+                    .then(res => res.json())
+                    .then(data => {
+                        eventsList.innerHTML = ""; // clear previous items
 
-                        const dateStr = date.toLocaleDateString("en-US", {
-                            weekday: "short",
-                            month: "short",
-                            day: "numeric"
+                        if (!data.items || data.items.length === 0) {
+                            eventsList.innerHTML = `<li class="no-events-message">No upcoming events in the next 30 days.</li>`;
+                            return;
+                        }
+
+                        data.items.forEach(event => {
+                            const li = document.createElement("li");
+                            const start = event.start.dateTime || event.start.date;
+                            const date = new Date(start);
+
+                            const dateStr = date.toLocaleDateString("en-US", {
+                                weekday: "short",
+                                month: "short",
+                                day: "numeric"
+                            });
+
+                            const timeStr = event.start.dateTime
+                                ? date.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })
+                                : "All day";
+
+                            li.innerHTML = `<strong>${event.summary || "Untitled Event"}</strong><br>${dateStr} • ${timeStr}`;
+                            eventsList.appendChild(li);
                         });
-
-                        const timeStr = event.start.dateTime
-                            ? date.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })
-                            : "All day";
-
-                        li.innerHTML = `<strong>${event.summary || "Untitled Event"}</strong><br>${dateStr} • ${timeStr}`;
-                        eventsList.appendChild(li);
+                    })
+                    .catch(err => {
+                        console.error("Calendar API error:", err);
+                        eventsList.innerHTML = `<li class="no-events-message">Unable to load events.</li>`;
                     });
-                })
-                .catch(err => {
-                    console.error("Calendar API error:", err);
-                    eventsList.innerHTML = `<li class="no-events-message">Unable to load events.</li>`;
-                });
+            }
+
+            // Load immediately
+            loadCalendarEvents();
+
+            // Auto-refresh every 24 hours
+            setInterval(loadCalendarEvents, 24 * 60 * 60 * 1000);
         }
 
+        // Clear Cart Button
         document.getElementById("clear-cart")?.addEventListener("click", () => {
-            localStorage.removeItem("cart"); // Clear the cart from localStorage
-            alert("Cart has been cleared!"); // Notify the user
-            location.reload(); // Reload the page to reflect changes
+            localStorage.removeItem("cart"); 
+            alert("Cart has been cleared!"); 
+            location.reload(); 
         });
 
     });

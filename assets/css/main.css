@@ -1811,20 +1811,6 @@ input, select, textarea {
 				margin: 0 auto;
 			}
 
-		/* Actions */
-
-			ul.actions {
-				margin: 2em 0 0 0;
-			}
-
-				ul.actions li {
-					margin: 15px 0 0 0;
-					display: block;
-				}
-
-					ul.actions li:first-child {
-						margin-top: 0;
-					}
 
 		/* Feature List */
 
@@ -3407,4 +3393,57 @@ input, textarea {
     svg {
         display: inline; /* Show SVG on larger screens */
     }
+
+	/* Center product contents */
+	.highlight {
+		text-align: center !important;
+	}
+
+	/* Center buttons and override floating */
+	.highlight .actions {
+		display: flex !important;
+		justify-content: center !important;
+		align-items: center !important;
+		gap: 0.5rem !important;
+		padding: 0 !important;
+		margin-top: 1rem !important;
+		float: none !important;
+		position: static !important;
+		width: 100% !important;
+		box-sizing: border-box !important;
+	}
+
+	/* Make each list item inline-flex */
+	.highlight .actions li {
+		margin: 0 !important;
+		list-style: none !important;
+		display: inline-flex !important;
+		align-items: center !important;
+		justify-content: center !important;
+		padding: 0 !important;
+	}
+
+	/* Make buttons equal size and aligned */
+	.highlight .actions .button {
+		display: inline-flex !important;
+		align-items: center !important;
+		justify-content: center !important;
+		text-align: center !important;
+		box-sizing: border-box !important;
+		flex: 0 0 140px !important;
+		white-space: nowrap;
+	}
+
+	/* Responsive: stack buttons on small screens */
+	@media (max-width: 400px) {
+		.highlight .actions {
+			flex-direction: column !important;
+			gap: 0.5rem !important;
+		}
+		.highlight .actions .button {
+			flex: 0 0 auto !important;
+			width: 100% !important;
+		}
+	}
+
 }
