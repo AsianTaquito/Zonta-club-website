@@ -2808,7 +2808,7 @@ input, textarea {
 
 	.dropotron {
 		background: transparent;
-		background-color: rgba(233, 209, 206, 0.2);
+		background-color: rgba(209, 165, 161, 0.4);
 		padding: 1.25em 1em 1.25em 1em;
 		border-radius: 0.35em;
 		box-shadow: inset 0px 0px 1px 1px white;
@@ -2916,7 +2916,7 @@ input, textarea {
 /* Footer */
 
 	#footer {
-		background: #282b34 url("images/overlay.png");
+		background: #282b34;
 		color: rgba(255, 255, 255, 0.5);
 		padding-bottom: 6em;
 	}
@@ -2981,7 +2981,7 @@ input, textarea {
 			}
 
 		#footer .title {
-			background: #282b34 url("images/overlay.png");
+			background: #282b34;
 			color: #eee;
 		}
 
@@ -3008,7 +3008,7 @@ input, textarea {
 			}
 
 			#footer .feature-list h3:before {
-				background: #3d4249 url("images/overlay.png");
+				background: #3d4249;
 			}
 
 /* Copyright */
