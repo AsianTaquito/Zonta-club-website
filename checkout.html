@@ -1,17 +1,17 @@
 <!DOCTYPE HTML>
-<html>
-<head>
-    <title>Checkout</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-    <link rel="stylesheet" href="assets/css/main.css" />
-</head>
-<body class="checkout-page">
-    <div id="page-wrapper">
-<!-- Header -->
+    <html>
+        <head>
+            <title>Checkout</title>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+            <link rel="stylesheet" href="assets/css/main.css" />
+        </head>
+        <body class="checkout-page">
+            <div id="page-wrapper">
+                <!-- Header -->
 				<section id="header" class="wrapper">
 					<div id="header-caption"></div>
-										<!-- Nav -->
+						<!-- Nav -->
 						<nav id="nav">
 							<ul>
 								<li><a href="index.html">Home</a></li>
@@ -42,11 +42,11 @@
 											</g>
 										</g>
 									</svg>
+                                    <span id="cart-count" style="background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 12px; margin-left: 5px; display: none;"></span>
 									</a>
 								</li>
 							</ul>
 						</nav>
-
 				</section>
 
         <!-- Main -->
@@ -205,27 +205,27 @@
         document.getElementById('grand-total').textContent = `$${grandTotal.toFixed(2)}`;
     
 
-    // Order Summary
-    const urlParams = new URLSearchParams(window.location.search);
-    const productName = urlParams.get('product');
-    const productPrice = parseFloat(urlParams.get('price') || 0);
+        // Order Summary
+        const urlParams = new URLSearchParams(window.location.search);
+        const productName = urlParams.get('product');
+        const productPrice = parseFloat(urlParams.get('price') || 0);
 
-    const qty = 1;
-    const subtotal = productPrice * qty;
-    const tax = subtotal * 0.07;
-    const total = subtotal + tax;
+        const qty = 1;
+        const subtotal = productPrice * qty;
+        const tax = subtotal * 0.07;
+        const total = subtotal + tax;
 
-    document.getElementById("checkout-body").innerHTML = `
-        <tr>
-            <td>${productName}</td>
-            <td>1</td>
-            <td>$${productPrice.toFixed(2)}</td>
-            <td>$${subtotal.toFixed(2)}</td>
-        </tr>
-    `;
-    document.getElementById("subtotal").textContent = `$${subtotal.toFixed(2)}`;
-    document.getElementById("tax").textContent = `$${tax.toFixed(2)}`;
-    document.getElementById("grand-total").textContent = `$${total.toFixed(2)}`;
+        document.getElementById("checkout-body").innerHTML = `
+            <tr>
+                <td>${productName}</td>
+                <td>1</td>
+                <td>$${productPrice.toFixed(2)}</td>
+                <td>$${subtotal.toFixed(2)}</td>
+            </tr>
+        `;
+        document.getElementById("subtotal").textContent = `$${subtotal.toFixed(2)}`;
+        document.getElementById("tax").textContent = `$${tax.toFixed(2)}`;
+        document.getElementById("grand-total").textContent = `$${total.toFixed(2)}`;
     </script>
 
 </body>

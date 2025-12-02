@@ -42,6 +42,7 @@
 											</g>
 										</g>
 									</svg>
+                                    <span id="cart-count" style="background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 12px; margin-left: 5px; display: none;"></span>
 									</a>
 								</li>
 							</ul>
@@ -86,6 +87,7 @@
                             <ul class="actions special">
 									<li><a href="checkout.html" class="button style1 large">Procced to checkout</a></li>
 									<li><a href="no-sidebar.html" class="button style2 large">Continue Shopping</a></li>
+									<li><button id="clear-cart" class="button style3 large">Clear Cart</button></li>
 								</ul>
                         </section>
                     </article>
@@ -114,5 +116,78 @@
     <script src="assets/js/breakpoints.min.js"></script>
     <script src="assets/js/util.js"></script>
     <script src="assets/js/main.js"></script>
+
+    <script>
+        // Load cart and render it
+        function loadCart() {
+            const cartBody = document.getElementById("cart-body");
+            const subtotalEl = document.getElementById("subtotal");
+
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            cartBody.innerHTML = "";
+
+            let subtotal = 0;
+
+            cart.forEach(item => {
+                const price = isNaN(item.price) ? "—" : `$${item.price.toFixed(2)}`;
+                const total = isNaN(item.price) ? "—" : `$${(item.price * item.quantity).toFixed(2)}`;
+
+                if (!isNaN(item.price)) {
+                    subtotal += item.price * item.quantity;
+                }
+
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${item.name}</td>
+                    <td>${item.quantity}</td>
+                    <td>${price}</td>
+                    <td>${total}</td>
+                    <td>
+                        <button class="remove-item" data-id="${item.id}">X</button>
+                    </td>
+                `;
+                cartBody.appendChild(row);
+            });
+
+            subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
+
+            // Remove buttons
+            document.querySelectorAll(".remove-item").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    removeFromCart(btn.dataset.id);
+                });
+            });
+        }
+
+        // Remove item from cart
+        function removeFromCart(id) {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            cart = cart.filter(item => item.id !== id);
+
+            localStorage.setItem("cart", JSON.stringify(cart));
+            loadCart();
+            updateCartCount();
+        }
+
+        // Update cart bubble (top-right count)
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+            const countEl = document.getElementById("cart-count");
+            if (countEl) countEl.textContent = count;
+        }
+
+        // Clear cart
+        document.getElementById("clear-cart").addEventListener("click", () => {
+            localStorage.removeItem("cart");
+            loadCart();
+            updateCartCount();
+        });
+
+        // INITIALIZE
+        loadCart();
+        updateCartCount();
+    </script>
 </body>
 </html>

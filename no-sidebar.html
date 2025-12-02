@@ -1,207 +1,183 @@
 <!DOCTYPE HTML>
 <html>
-	<head>
-		<title>Shop</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-	</head>
-	<body class="no-sidebar is-preload">
-		<div id="page-wrapper">
+<head>
+    <title>Shop</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+</head>
+<body class="no-sidebar is-preload">
+    <div id="page-wrapper">
+        <!-- Header -->
+        <section id="header" class="wrapper">
+            <div id="header-caption"></div>
+            <!-- Nav -->
+            <nav id="nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li>
+                        <a href="#">Membership</a>
+                        <ul>
+                            <li><a href="https://www.zonta.org/Web/Contact_Management/Sign_In.aspx?LoginRedirect=true&returnurl=%2fWeb%2fWeb%2fMy_Zonta_Home.aspx%3fhkey%3d6eb501e3-fabb-456c-8202-c5389248eb1c">login</a></li>
+                            <li><a href="images\Prospective Member Questionnaire Form.pdf" download>Join Us</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="left-sidebar.html">About us</a></li>
+                    <li><a href="right-sidebar.html">Scholarship</a></li>
+                    <li class="current"><a href="no-sidebar.html">Shop</a></li>
+                    <li><a href="cart.html">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15px" height="15px" viewBox="0 0 902.86 902.86">
+                            <g>
+                                <path d="M671.504,577.829l110.485-432.609H902.86v-68H729.174L703.128,179.2L0,178.697l74.753,399.129h596.751V577.829z M685.766,247.188l-67.077,262.64H131.199L81.928,246.756L685.766,247.188z"/>
+                                <path d="M578.418,825.641c59.961,0,108.743-48.783,108.743-108.744s-48.782-108.742-108.743-108.742H168.717c-59.961,0-108.744,48.781-108.744,108.742s48.782,108.744,108.744,108.744c59.962,0,108.743-48.783,108.743-108.744c0-14.4-2.821-28.152-7.927-40.742h208.069c-5.107,12.59-7.928,26.342-7.928,40.742C469.675,776.858,518.457,825.641,578.418,825.641z M209.46,716.897c0,22.467-18.277,40.744-40.743,40.744c-22.466,0-40.744-18.277-40.744-40.744c0-22.465,18.277-40.742,40.744-40.742C191.183,676.155,209.46,694.432,209.46,716.897z M619.162,716.897c0,22.467-18.277,40.744-40.743,40.744s-40.743-18.277-40.743-40.744c0-22.465,18.277-40.742,40.743-40.742S619.162,694.432,619.162,716.897z"/>
+                            </g>
+                        </svg>
+                        <span id="cart-count" style="background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 12px; margin-left: 5px; display: none;"></span>
+                    </a></li>
+                </ul>
+            </nav>
+        </section>
 
-			<!-- Header -->
-				<section id="header" class="wrapper">
-					<div id="header-caption"></div>
-						<!-- Nav -->
-						<nav id="nav">
-							<ul>
-								<li><a href="index.html">Home</a></li>
-								<li>
-									<a href="#">Membership</a>
-									<ul>
-										<li><a href="https://www.zonta.org/Web/Contact_Management/Sign_In.aspx?LoginRedirect=true&returnurl=%2fWeb%2fWeb%2fMy_Zonta_Home.aspx%3fhkey%3d6eb501e3-fabb-456c-8202-c5389248eb1c">
-											login</a></li>
-										<li><a href="images\Prospective Member Questionnaire Form.pdf" download>Join Us</a></li>
-									</ul>
-								</li>
-								<li><a href="left-sidebar.html">About us</a></li>
-								<li><a href="right-sidebar.html">Scholarship</a></li>
-								<li class="current"><a href="no-sidebar.html">Shop</a></li>
-								<li><a href="cart.html">
-									<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000" version="1.1" id="Capa_1" width="15px" height="15px" viewBox="0 0 902.86 902.86" xml:space="preserve">
-										<g>
-											<g>
-												<path d="M671.504,577.829l110.485-432.609H902.86v-68H729.174L703.128,179.2L0,178.697l74.753,399.129h596.751V577.829z     
-												M685.766,247.188l-67.077,262.64H131.199L81.928,246.756L685.766,247.188z"/>
-												<path d="M578.418,825.641c59.961,0,108.743-48.783,108.743-108.744s-48.782-108.742-108.743-108.742H168.717    
-												c-59.961,0-108.744,48.781-108.744,108.742s48.782,108.744,108.744,108.744c59.962,0,108.743-48.783,108.743-108.744    
-												c0-14.4-2.821-28.152-7.927-40.742h208.069c-5.107,12.59-7.928,26.342-7.928,40.742    
-												C469.675,776.858,518.457,825.641,578.418,825.641z M209.46,716.897c0,22.467-18.277,40.744-40.743,40.744    
-												c-22.466,0-40.744-18.277-40.744-40.744c0-22.465,18.277-40.742,40.744-40.742C191.183,676.155,209.46,694.432,209.46,716.897z     
-												M619.162,716.897c0,22.467-18.277,40.744-40.743,40.744s-40.743-18.277-40.743-40.744c0-22.465,18.277-40.742,40.743-40.742    
-												S619.162,694.432,619.162,716.897z"/>
-											</g>
-										</g>
-									</svg>
-									</a>
-								</li>
-							</ul>
-						</nav>
+        <!-- Main -->
+        <div id="main" class="wrapper style2">
+            <div class="title">Shop</div>
+            <div class="container">
+                <!-- Content -->
+                <div id="content">
+                    <article class="box post">
+                        <header class="style1">												
+                            <div class="container">
+                                <div class="row aln-center">
+                                    <div class="col-4 col-12-medium">
+                                        <section class="highlight">
+                                            <a class="image featured"><img src="images/pic05.jpg" alt="" /></a>
+                                            <h3>Coffee Mug</h3>
+                                            <p data-price="10">Zonta club of naples Mug <br> $10</p>
+                                            <ul class="actions style1">
+                                                <li><button class="button style1 purchase-button" data-id="1">Purchase now</button></li>
+                                                <li><button class="button style2 add-to-cart" data-id="1">Add to cart</button></li>
+                                            </ul>
+                                        </section>
+                                    </div>
+                                    <div class="col-4 col-12-medium">
+                                        <section class="highlight">
+                                            <a class="image featured"><img src="images/pic05.jpg" alt="" /></a>
+                                            <h3>Club Lanyard</h3>
+                                            <p data-price="5">Zonta Club of Naples Lanyard <br> $5</p>
+                                            <ul class="actions style1">
+                                                <li><button class="button style1 purchase-button" data-id="2">Purchase Now</button></li>
+                                                <li><button class="button style2 add-to-cart" data-id="2">Add To Cart</button></li>
+                                            </ul>
+                                        </section>
+                                    </div>
+                                    <div class="col-4 col-12-medium">
+                                        <section class="highlight">
+                                            <a class="image featured"><img src="images/pic05.jpg" alt="" /></a>
+                                            <h3>Club Pin</h3>
+                                            <p data-price="15">Zonta Club of Naples Pin <br> $15</p>
+                                            <ul class="actions style1">
+                                                <li><button class="button style1 purchase-button" data-id="3">Purchase Now</button></li>
+                                                <li><button class="button style2 add-to-cart" data-id="3">Add to cart</button></li>
+                                            </ul>
+                                        </section>
+                                    </div>
+                                </div>
+                            </div>
+                        </header>
+                    </article>
+                </div>
+            </div>
+        </div>
 
-				</section>
+        <!-- Footer -->
+        <section id="footer" class="wrapper">
+            <div class="title">Contact Us</div>
+            <div class="container">
+                <header class="style1">
+                    <h2>Thinking about joining?</h2>
+                    <p>Feel free to reach out to us with any questions or inquiries you may have. We would love to hear from you!</p>
+                </header>
+                <div class="row">
+                    <div class="col-6 col-12-medium">
+                        <!-- Contact Form -->
+                        <section>
+                            <form method="post" action="#">
+                                <div class="row gtr-50">
+                                    <div class="col-6 col-12-small">
+                                        <input type="text" name="name" id="contact-name" placeholder="Name" />
+                                    </div>
+                                    <div class="col-6 col-12-small">
+                                        <input type="text" name="email" id="contact-email" placeholder="Email" />
+                                    </div>
+                                    <div class="col-12">
+                                        <textarea name="message" id="contact-message" placeholder="Message" rows="4"></textarea>
+                                    </div>
+                                    <div class="col-12">
+                                        <ul class="actions">
+                                            <li><input type="submit" class="style1" value="Send" /></li>
+                                            <li><input type="reset" class="style2" value="Reset" /></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </form>
+                        </section>
+                    </div>
+                    <div class="col-6 col-12-medium">
+                        <!-- Contact -->
+                        <section class="feature-list small">
+                            <div class="row">
+                                <div class="col-6 col-12-small">
+                                    <section>
+                                        <h3 class="icon solid fa-home">Mailing Address</h3>
+                                        <p>
+                                            Zonta Club of Naples <br />
+                                            P.O. Box 10911<br />
+                                            Naples, FL 34101
+                                        </p>
+                                    </section>
+                                </div>
+                                <div class="col-6 col-12-small">
+                                    <section>
+                                        <h3 class="icon solid fa-comment">Social</h3>
+                                        <p>
+                                            <p1>@Zonta Club of Naples</p1>
+                                            <a href="https://www.facebook.com/ZontaNaples">facebook.com/ZontaNaples</a>
+                                        </p>
+                                    </section>
+                                </div>
+                                <div class="col-6 col-12-small">
+                                    <section>
+                                        <h3 class="icon solid fa-envelope">Email</h3>
+                                        <p>
+                                            <a>info@zonta-naples.org</a>
+                                        </p>
+                                    </section>
+                                </div>
+                                <div class="col-6 col-12-small">
+                                    <section>
+                                        <h3 class="icon solid fa-phone">Phone</h3>
+                                        <p>(973) 864-7087</p>
+                                    </section>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                <div id="copyright">
+                    <ul>
+                        <li>&copy; Untitled.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
 
-			<!-- Main -->
-				<div id="main" class="wrapper style2">
-					<div class="title">Shop</div>
-					<div class="container">
-
-						<!-- Content -->
-							<div id="content">
-								<article class="box post">
-									<header class="style1">												
-										<div class="container">
-											<div class="row aln-center">
-												<div class="col-4 col-12-medium">
-													<section class="highlight">
-														<a class="image featured"><img src="images/pic05.jpg" alt="" /></a>
-														<h3>Coffee Mug</h3>
-														<p data-price="10">Zonta club of naples Mug <br> $10</p>
-														<ul class="actions style1">
-															<li><a href="checkout.html" class="button style1 purchase-button" data-id="1">Purchase now</a></li>
-															<li><a class="button style2 add-to-cart" data-id="1">Add to cart</a></li>
-														</ul>
-													</section>
-												</div>
-												<div class="col-4 col-12-medium">
-													<section class="highlight">
-														<a href="#" class="image featured"><img src="images/pic05.jpg" alt="" /></a>
-														<h3>Club Lanyard</h3>
-														<p data-price="5">Zonta Club of Naples Lanyard <br> $5 </p>
-														<ul class="actions style1">
-															<li><a href="checkout.html" class="button style1 purchase-button" data-id="2">Purchase Now</a></li>
-															<li><a class="button style2 add-to-cart" data-id="2">Add To Cart</a></li>
-														</ul>
-													</section>
-												</div>
-												<div class="col-4 col-12-medium">
-													<section class="highlight">
-														<a href="#" class="image featured"><img src="images/pic05.jpg" alt="" /></a>
-														<h3>Whatever else they got</h3>
-														<p>Example Description <br> $$$ </p>
-														<ul class="actions style1">
-															<li><a href="checkout.html" class="button style1 purchase-button" data-id="3">Purchase Now</a></li>
-															<li><a class="button style2 add-to-cart" data-id="3">Add to cart</a></li>
-														</ul>
-													</section>
-												</div>
-											</div>
-										</div>
-									</header>
-								</article>
-							</div>
-					</div>
-				</div>
-
-			
-			<!-- Footer -->
-				<section id="footer" class="wrapper">
-					<div class="title">Contact Us</div>
-					<div class="container">
-						<header class="style1">
-							<h2>Thinking about joining?</h2>
-							<p>
-								Feel free to reach out to us with any questions or inquiries you may have. We would love to hear from you!
-							</p>
-						</header>
-						<div class="row">
-							<div class="col-6 col-12-medium">
-
-								<!-- Contact Form -->
-									<section>
-										<form method="post" action="#">
-											<div class="row gtr-50">
-												<div class="col-6 col-12-small">
-													<input type="text" name="name" id="contact-name" placeholder="Name" />
-												</div>
-												<div class="col-6 col-12-small">
-													<input type="text" name="email" id="contact-email" placeholder="Email" />
-												</div>
-												<div class="col-12">
-													<textarea name="message" id="contact-message" placeholder="Message" rows="4"></textarea>
-												</div>
-												<div class="col-12">
-													<ul class="actions">
-														<li><input type="submit" class="style1" value="Send" /></li>
-														<li><input type="reset" class="style2" value="Reset" /></li>
-													</ul>
-												</div>
-											</div>
-										</form>
-									</section>
-
-							</div>
-							<div class="col-6 col-12-medium">
-
-								<!-- Contact -->
-									<section class="feature-list small">
-										<div class="row">
-											<div class="col-6 col-12-small">
-												<section>
-													<h3 class="icon solid fa-home">Mailing Address</h3>
-													<p>
-														Zonta Club of Naples <br />
-														P.O. Box 10911<br />
-														Naples, FL 34101
-													</p>
-												</section>
-											</div>
-											<div class="col-6 col-12-small">
-												<section>
-													<h3 class="icon solid fa-comment">Social</h3>
-													<p>
-														<p1>@Zonta Club of Naples</p1>
-														<a href="https://www.facebook.com/ZontaNaples">facebook.com/ZontaNaples</a>
-													</p>
-												</section>
-											</div>
-											<div class="col-6 col-12-small">
-												<section>
-													<h3 class="icon solid fa-envelope">Email</h3>
-													<p>
-														<a>info@zonta-naples.org</a>
-													</p>
-												</section>
-											</div>
-											<div class="col-6 col-12-small">
-												<section>
-													<h3 class="icon solid fa-phone">Phone</h3>
-													<p>
-														(973) 864-7087 
-													</p>
-												</section>
-											</div>
-										</div>
-									</section>
-
-							</div>
-						</div>
-						<div id="copyright">
-							<ul>
-								<li>&copy; Untitled.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-							</ul>
-						</div>
-					</div>
-				</section>
-
-		</div>
-
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.dropotron.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
-
-	</body>
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.dropotron.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
 </html>

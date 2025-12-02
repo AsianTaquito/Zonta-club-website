@@ -62,239 +62,278 @@
 					target: $body,
 					visibleClass: 'navPanel-visible'
 				});
-document.addEventListener("DOMContentLoaded", () => {
 
-    // NavBar Cart Counter 
-    function updateCartCount() {
-        const cart = JSON.parse(localStorage.getItem("cart")) || [];
-        const count = cart.reduce((sum, item) => sum + item.quantity, 0);
-        const badge = document.getElementById("cart-count");
-        if (!badge) return;
-        badge.textContent = count > 0 ? count : "";
-        badge.style.display = count > 0 ? "inline-block" : "none";
-    }
-    updateCartCount();
+    document.addEventListener("DOMContentLoaded", () => {
 
-    // Shop Page Buttons 
-    function addItemToCart(section, productId) {
-        const productName = section.querySelector("h3").textContent.trim();
-        const productPrice = parseFloat(section.querySelector("p").getAttribute("data-price"));
-        const id = productId || productName;
-
-        let cart = JSON.parse(localStorage.getItem("cart")) || [];
-        const existingItem = cart.find(item => item.id === id);
-
-        if (existingItem) existingItem.quantity++;
-        else cart.push({ id, name: productName, price: productPrice, quantity: 1 });
-
-        localStorage.setItem("cart", JSON.stringify(cart));
+        // NavBar Cart Counter 
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const badge = document.getElementById("cart-count");
+            if (!badge) return;
+            badge.textContent = count > 0 ? count : "";
+            badge.style.display = count > 0 ? "inline-block" : "none";
+        }
         updateCartCount();
-    }
 
-    document.querySelectorAll(".purchase-button").forEach(btn => {
-        btn.addEventListener("click", e => {
-            e.preventDefault();
-            const section = btn.closest("section.highlight");
-            addItemToCart(section, btn.dataset.id);
-            window.location.href = "checkout.html";
-        });
-    });
+        // Shop Page Buttons 
+        function addItemToCart(section, productId) {
+            const productName = section.querySelector("h3").textContent.trim();
+            const priceElement = section.querySelector("p");
+            const productPrice = parseFloat(priceElement.getAttribute("data-price"));
+            
+            const id = productId || productName;
 
-    document.querySelectorAll(".add-to-cart").forEach(btn => {
-        btn.addEventListener("click", e => {
-            e.preventDefault();
-            const section = btn.closest("section.highlight");
-            addItemToCart(section, btn.dataset.id);
-            alert("Item added to cart!");
-        });
-    });
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            const existingItem = cart.find(item => item.id === id);
 
-    // Cart Page 
-    if (document.getElementById("cart-body")) {
-        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({
+                    id,
+                    name: productName,
+                    price: productPrice, 
+                    quantity: 1
+                });
+            }
 
-        function renderCart() {
-            const tbody = document.getElementById("cart-body");
-            tbody.innerHTML = "";
-            let subtotal = 0;
-
-            cart.forEach((item, i) => {
-                const total = item.price * item.quantity;
-                subtotal += total;
-                tbody.innerHTML += `
-                    <tr>
-                        <td>${item.name}</td>
-                        <td>
-                            <button class="qty-btn" data-index="${i}" data-change="-1">-</button>
-                            ${item.quantity}
-                            <button class="qty-btn" data-index="${i}" data-change="1">+</button>
-                        </td>
-                        <td>$${item.price.toFixed(2)}</td>
-                        <td>$${total.toFixed(2)}</td>
-                        <td><button class="remove-btn" data-index="${i}">X</button></td>
-                    </tr>
-                `;
-            });
-
-            document.getElementById("subtotal").textContent = `$${subtotal.toFixed(2)}`;
             localStorage.setItem("cart", JSON.stringify(cart));
             updateCartCount();
         }
 
-        document.addEventListener("click", e => {
-            if (e.target.classList.contains("qty-btn")) {
-                const i = e.target.dataset.index;
-                cart[i].quantity += parseInt(e.target.dataset.change);
-                if (cart[i].quantity <= 0) cart.splice(i, 1);
-                renderCart();
-            }
-            if (e.target.classList.contains("remove-btn")) {
-                cart.splice(e.target.dataset.index, 1);
-                renderCart();
-            }
+        // Purchase buttons (Go directly to checkout)
+        document.querySelectorAll(".purchase-button").forEach(btn => {
+            btn.addEventListener("click", e => {
+                e.preventDefault();
+
+                const section = btn.closest("section.highlight");
+                addItemToCart(section, btn.dataset.id);
+
+                setTimeout(() => {
+                    window.location.href = "checkout.html";
+                }, 50);
+            });
         });
 
-        renderCart();
-    }
+        // Add-to-cart buttons 
+        document.querySelectorAll(".add-to-cart").forEach(btn => {
+            btn.addEventListener("click", e => {
+                e.preventDefault();
 
-    // Checkout Page
-    if (document.getElementById("checkout-body")) {
-        const cart = JSON.parse(localStorage.getItem("cart")) || [];
-        const tbody = document.getElementById("checkout-body");
-        const taxRate = 0.07;
+                const section = btn.closest("section.highlight");
+                addItemToCart(section, btn.dataset.id);
 
-        if (cart.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;">Your cart is empty.</td></tr>`;
-            ["subtotal", "tax", "grand-total"].forEach(id => document.getElementById(id).textContent = "$0.00");
-        } else {
-            let subtotal = 0;
-            cart.forEach(item => {
-                const total = item.price * item.quantity;
-                subtotal += total;
-                tbody.innerHTML += `
-                    <tr>
-                        <td>${item.name}</td>
-                        <td>${item.quantity}</td>
-                        <td>$${item.price.toFixed(2)}</td>
-                        <td>$${total.toFixed(2)}</td>
-                    </tr>
-                `;
+                alert("Item added to cart!");
+            });
+        });
+
+
+        // Cart Page 
+        if (document.getElementById("cart-body")) {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+            function renderCart() {
+                const tbody = document.getElementById("cart-body");
+                tbody.innerHTML = "";
+                let subtotal = 0;
+
+                cart.forEach((item, i) => {
+                    const hasPrice = !isNaN(item.price);
+
+                    const total = hasPrice ? item.price * item.quantity : NaN;
+
+                    if (hasPrice) subtotal += total;
+
+                    tbody.innerHTML += `
+                        <tr>
+                            <td>${item.name}</td>
+                            <td>
+                                <button class="qty-btn" data-index="${i}" data-change="-1">-</button>
+                                ${item.quantity}
+                                <button class="qty-btn" data-index="${i}" data-change="1">+</button>
+                            </td>
+                            <td>${hasPrice ? `$${item.price.toFixed(2)}` : "—"}</td>
+                            <td>${hasPrice ? `$${total.toFixed(2)}` : "—"}</td>
+                            <td><button class="remove-btn" data-index="${i}">X</button></td>
+                        </tr>
+                    `;
+                });
+
+                document.getElementById("subtotal").textContent = `$${subtotal.toFixed(2)}`;
+
+                localStorage.setItem("cart", JSON.stringify(cart));
+                updateCartCount();
+            }
+
+            // Quantity change + removal
+            document.addEventListener("click", e => {
+                if (e.target.classList.contains("qty-btn")) {
+                    const i = parseInt(e.target.dataset.index);
+                    cart[i].quantity += parseInt(e.target.dataset.change);
+
+                    if (cart[i].quantity <= 0) cart.splice(i, 1);
+
+                    renderCart();
+                }
+
+                if (e.target.classList.contains("remove-btn")) {
+                    const i = parseInt(e.target.dataset.index);
+                    cart.splice(i, 1);
+                    renderCart();
+                }
             });
 
-            const tax = subtotal * taxRate;
-            const grandTotal = subtotal + tax;
-
-            document.getElementById("subtotal").textContent = `$${subtotal.toFixed(2)}`;
-            document.getElementById("tax").textContent = `$${tax.toFixed(2)}`;
-            document.getElementById("grand-total").textContent = `$${grandTotal.toFixed(2)}`;
-        }
-    }
-
-    // Header Carousel
-    const header = document.getElementById("header");
-    const captionBox = document.getElementById("header-caption");
-
-    if (header && captionBox) {
-        const page = window.location.pathname.split("/").pop() || "index.html";
-
-        const imageSets = {
-            "index.html": [
-                { src: "images/Header images/IndexHeader.JPG", caption: "Zonta international district meeting" },
-                { src: "images/Header images/IndexHeader01.JPG", caption: "" },
-                { src: "images/Header images/IndexHeader02.jpg", caption: "Zonta Club of Naples" },
-                { src: "images/Header images/IndexHeader03.jpg", caption: "" },
-                { src: "images/Header images/IndexHeader04.jpeg", caption: "" },
-                { src: "images/Header images/IndexHeader05.jpg", caption: "" },
-                { src: "images/Header images/Zonta Club Naples.jpeg", caption: "" }
-            ],
-            "left-sidebar.html": [
-                { src: "images/Header images/LeftHeader01.png", caption: "100 Years of zonta" },
-                { src: "images/Header images/LeftHeader02.jpg", caption: "Club Brunch" },
-                { src: "images/Header images/LeftHeader03.jpg", caption: "District 11 Awards" },
-                { src: "images/Header images/LeftHeader04.jpeg", caption: "" },
-                { src: "images/Header images/LeftHeader05.jpg", caption: "Community Service" }
-            ],
-            "right-sidebar.html": [
-                { src: "images/Header images/ScholarshipBanner01.jpeg", caption: "Memorial Scholarship Endowment Fund" },
-                { src: "images/Header images/Scholarshipbanner02.jpeg", caption: "A thing they did" },
-                { src: "images/Header images/ScholarshipBanner03.webp", caption: "25k check for something"}
-            ]
-        };
-
-        const images = imageSets[page] || [{ src: "images/Header images/Zonta logo-cropped Jpeg.jpg", caption: "Zonta Club Logo" }];
-        let index = 0;
-
-        function changeBackground() {
-            header.style.backgroundImage = `url('${images[index].src}')`;
-            captionBox.textContent = images[index].caption || "";
-            index = (index + 1) % images.length;
+            renderCart();
         }
 
-        changeBackground();
-        setInterval(changeBackground, 5000);
 
-        // Make caption follow the mouse
-        header.addEventListener("mousemove", e => {
-            // Hide caption box if theres no caption
-            if(!images[index === 0 ? images.length - 1 : index - 1].caption) {
-                captionBox.style.opacity = 0;
-                return;
+        // Checkout Page
+        if (document.getElementById("checkout-body")) {
+            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+            const tbody = document.getElementById("checkout-body");
+            const taxRate = 0.07;
+
+            if (cart.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;">Your cart is empty.</td></tr>`;
+                ["subtotal", "tax", "grand-total"].forEach(id => document.getElementById(id).textContent = "$0.00");
+            } else {
+                let subtotal = 0;
+                cart.forEach(item => {
+                    const total = item.price * item.quantity;
+                    subtotal += total;
+                    tbody.innerHTML += `
+                        <tr>
+                            <td>${item.name}</td>
+                            <td>${item.quantity}</td>
+                            <td>$${item.price.toFixed(2)}</td>
+                            <td>$${total.toFixed(2)}</td>
+                        </tr>
+                    `;
+                });
+
+                const tax = subtotal * taxRate;
+                const grandTotal = subtotal + tax;
+
+                document.getElementById("subtotal").textContent = `$${subtotal.toFixed(2)}`;
+                document.getElementById("tax").textContent = `$${tax.toFixed(2)}`;
+                document.getElementById("grand-total").textContent = `$${grandTotal.toFixed(2)}`;
+            }
+        }
+
+        // Header Carousel
+        const header = document.getElementById("header");
+        const captionBox = document.getElementById("header-caption");
+
+        if (header && captionBox) {
+            let page = window.location.pathname.split("/").pop() || "index.html";
+            page = page.split("?")[0].split("#")[0].replace(/\/$/, "");
+
+            const imageSets = {
+                "index.html": [
+                    { src: "images/Header images/IndexHeader.JPG", caption: "Zonta international district meeting" },
+                    { src: "images/Header images/IndexHeader01.JPG", caption: "" },
+                    { src: "images/Header images/IndexHeader02.jpg", caption: "Zonta Club of Naples" },
+                    { src: "images/Header images/IndexHeader03.jpg", caption: "" },
+                    { src: "images/Header images/IndexHeader04.jpeg", caption: "" },
+                    { src: "images/Header images/IndexHeader05.jpg", caption: "" },
+                    { src: "images/Header images/Zonta Club Naples.jpeg", caption: "" }
+                ],
+                "left-sidebar.html": [
+                    { src: "images/Header images/LeftHeader01.png", caption: "100 Years of zonta" },
+                    { src: "images/Header images/LeftHeader02.jpg", caption: "Club Brunch" },
+                    { src: "images/Header images/LeftHeader03.jpg", caption: "District 11 Awards" },
+                    { src: "images/Header images/LeftHeader04.jpeg", caption: "" },
+                    { src: "images/Header images/LeftHeader05.jpg", caption: "Community Service" }
+                ],
+                "right-sidebar.html": [
+                    { src: "images/Header images/ScholarshipBanner01.jpeg", caption: "Memorial Scholarship Endowment Fund" },
+                    { src: "images/Header images/Scholarshipbanner02.jpeg", caption: "A thing they did" },
+                    { src: "images/Header images/ScholarshipBanner03.webp", caption: "25k check for something" }
+                ]
+            };
+
+            const images = imageSets[page] || [{ src: "images/Header images/Zonta logo-cropped Jpeg.jpg", caption: "Zonta Club Logo" }];
+            let index = 0;
+
+            function changeBackground() {
+                header.style.backgroundImage = `url('${images[index].src}')`;
+                captionBox.textContent = images[index].caption || "";
+                index = (index + 1) % images.length;
             }
 
-            const rect = header.getBoundingClientRect();
-            captionBox.style.left = `${e.clientX - rect.left + 15}px`;
-            captionBox.style.top = `${e.clientY - rect.top + 15}px`;
-            captionBox.style.opacity = 1;
-        });
+            changeBackground();
+            setInterval(changeBackground, 5000);
+        
 
-        header.addEventListener("mouseleave", () => {
-            captionBox.style.opacity = 0;
-        });
-    }
-
-    // Google Calendar Events 
-    const eventsList = document.getElementById("events-list");
-
-    if (eventsList) {
-        const API_KEY = "YOUR_API_KEY";
-        const CAL_ID = "YOUR_CALENDAR_ID";
-
-        const url = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(CAL_ID)}/events?key=${API_KEY}&timeMin=${new Date().toISOString()}&singleEvents=true&orderBy=startTime&maxResults=10`;
-
-        fetch(url)
-            .then(res => res.json())
-            .then(data => {
-                if (!data.items || data.items.length === 0) {
-                    eventsList.innerHTML = `<li class="no-events-message">No upcoming events.</li>`;
+            // Make caption follow the mouse
+            header.addEventListener("mousemove", e => {
+                // Hide caption box if theres no caption
+                if(!images[index === 0 ? images.length - 1 : index - 1].caption) {
+                    captionBox.style.opacity = 0;
                     return;
                 }
 
-                data.items.forEach(event => {
-                    const li = document.createElement("li");
-                    const start = event.start.dateTime || event.start.date;
-                    const date = new Date(start);
-
-                    const dateStr = date.toLocaleDateString("en-US", {
-                        weekday: "short",
-                        month: "short",
-                        day: "numeric"
-                    });
-
-                    const timeStr = event.start.dateTime
-                        ? date.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })
-                        : "All day";
-
-                    li.innerHTML = `<strong>${event.summary || "Untitled Event"}</strong><br>${dateStr} • ${timeStr}`;
-                    eventsList.appendChild(li);
-                });
-            })
-            .catch(err => {
-                console.error("Calendar API error:", err);
-                eventsList.innerHTML = `<li class="no-events-message">Unable to load events.</li>`;
+                const rect = header.getBoundingClientRect();
+                captionBox.style.left = `${e.clientX - rect.left + 15}px`;
+                captionBox.style.top = `${e.clientY - rect.top + 15}px`;
+                captionBox.style.opacity = 1;
             });
-    }
 
-});
+            header.addEventListener("mouseleave", () => {
+                captionBox.style.opacity = 0;
+            });
+        }
+
+        // Google Calendar Events 
+        const eventsList = document.getElementById("events-list");
+
+        if (eventsList) {
+            const API_KEY = "YOUR_API_KEY";
+            const CAL_ID = "YOUR_CALENDAR_ID";
+
+            const url = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(CAL_ID)}/events?key=${API_KEY}&timeMin=${new Date().toISOString()}&singleEvents=true&orderBy=startTime&maxResults=10`;
+
+            fetch(url)
+                .then(res => res.json())
+                .then(data => {
+                    if (!data.items || data.items.length === 0) {
+                        eventsList.innerHTML = `<li class="no-events-message">No upcoming events.</li>`;
+                        return;
+                    }
+
+                    data.items.forEach(event => {
+                        const li = document.createElement("li");
+                        const start = event.start.dateTime || event.start.date;
+                        const date = new Date(start);
+
+                        const dateStr = date.toLocaleDateString("en-US", {
+                            weekday: "short",
+                            month: "short",
+                            day: "numeric"
+                        });
+
+                        const timeStr = event.start.dateTime
+                            ? date.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })
+                            : "All day";
+
+                        li.innerHTML = `<strong>${event.summary || "Untitled Event"}</strong><br>${dateStr} • ${timeStr}`;
+                        eventsList.appendChild(li);
+                    });
+                })
+                .catch(err => {
+                    console.error("Calendar API error:", err);
+                    eventsList.innerHTML = `<li class="no-events-message">Unable to load events.</li>`;
+                });
+        }
+
+        document.getElementById("clear-cart")?.addEventListener("click", () => {
+            localStorage.removeItem("cart"); // Clear the cart from localStorage
+            alert("Cart has been cleared!"); // Notify the user
+            location.reload(); // Reload the page to reflect changes
+        });
+
+    });
 
 
 
