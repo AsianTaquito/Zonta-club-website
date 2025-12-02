@@ -1521,6 +1521,10 @@ input, select, textarea {
 					display: none;
 				}
 
+				.cart-text{
+					display: none;
+				}
+
 			/* Logo */
 
 				#logo {
@@ -1670,6 +1674,7 @@ input, select, textarea {
 				box-shadow: inset -3px 0px 4px 0px rgba(0, 0, 0, 0.1);
 			}
 
+
 				#navPanel .link {
 					display: block;
 					color: rgba(255, 255, 255, 0.6);
@@ -1738,6 +1743,7 @@ input, select, textarea {
 				transform: translateX(0);
 			}
 			
+	
 
 	}
 
@@ -1979,6 +1985,13 @@ input, select, textarea {
 						#copyright ul li:first-child {
 							margin-top: 0;
 						}
+
+			svg{
+				display: none;
+			}			
+			.cart-text{
+				display: inline;
+			}
 
 	}
 
@@ -3386,3 +3399,12 @@ input, textarea {
 			}
 
 	}
+
+	@media screen and (min-width: 737px) {
+    .cart-text {
+        display: none; /* Hide text on larger screens */
+    }
+    svg {
+        display: inline; /* Show SVG on larger screens */
+    }
+}
