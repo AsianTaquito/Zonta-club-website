@@ -27,7 +27,7 @@
 								<li><a href="right-sidebar.html">Scholarship</a></li>
 								<li><a href="no-sidebar.html">Shop</a></li>
 								<li><a href="cart.html">
-									<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000" version="1.1" id="Capa_1" width="15px" height="15px" viewBox="0 0 902.86 902.86" xml:space="preserve">
+									<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="currentColor" version="1.1" id="Capa_1" width="15px" height="15px" viewBox="0 0 902.86 902.86" xml:space="preserve">
 										<g>
 											<g>
 												<path d="M671.504,577.829l110.485-432.609H902.86v-68H729.174L703.128,179.2L0,178.697l74.753,399.129h596.751V577.829z     
@@ -116,9 +116,13 @@
                         <!-- Payment Buttons -->
                         <section id="payment-buttons">
                             <h3>Choose Payment Method</h3>
+                            
+                            <!-- Stripe Button -->
+                            <button id="stripe-btn" class="button style1 large">
+                                Pay with Card
+                            </button>
 
-                            <!-- PayPal -->
-                            <button id="paypal-btn" class="button style3 large">
+                          <button id="paypal-btn" class="button style3 large">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" width="100px" height="40px" viewBox="0 0 124 33" enable-background="new 0 0 124 33" xml:space="preserve">
                                     <path fill="#253B80" d="M46.211,6.749h-6.839c-0.468,0-0.866,0.34-0.939,0.802l-2.766,17.537c-0.055,0.346,0.213,0.658,0.564,0.658  h3.265c0.468,0,0.866-0.34,0.939-0.803l0.746-4.73c0.072-0.463,0.471-0.803,0.938-0.803h2.165c4.505,0,7.105-2.18,7.784-6.5  c0.306-1.89,0.013-3.375-0.872-4.415C50.224,7.353,48.5,6.749,46.211,6.749z M47,13.154c-0.374,2.454-2.249,2.454-4.062,2.454  h-1.032l0.724-4.583c0.043-0.277,0.283-0.481,0.563-0.481h0.473c1.235,0,2.4,0,3.002,0.704C47.027,11.668,47.137,12.292,47,13.154z"/>
                                     <path fill="#253B80" d="M66.654,13.075h-3.275c-0.279,0-0.52,0.204-0.563,0.481l-0.145,0.916l-0.229-0.332  c-0.709-1.029-2.29-1.373-3.868-1.373c-3.619,0-6.71,2.741-7.312,6.586c-0.313,1.918,0.132,3.752,1.22,5.031  c0.998,1.176,2.426,1.666,4.125,1.666c2.916,0,4.533-1.875,4.533-1.875l-0.146,0.91c-0.055,0.348,0.213,0.66,0.562,0.66h2.95  c0.469,0,0.865-0.34,0.939-0.803l1.77-11.209C67.271,13.388,67.004,13.075,66.654,13.075z M62.089,19.449  c-0.316,1.871-1.801,3.127-3.695,3.127c-0.951,0-1.711-0.305-2.199-0.883c-0.484-0.574-0.668-1.391-0.514-2.301  c0.295-1.855,1.805-3.152,3.67-3.152c0.93,0,1.686,0.309,2.184,0.892C62.034,17.721,62.232,18.543,62.089,19.449z"/>
@@ -231,246 +235,14 @@
     <script src="assets/js/browser.min.js"></script>
     <script src="assets/js/breakpoints.min.js"></script>
     <script src="assets/js/util.js"></script>
-    <script src="assets/js/main.js"></script>
     
-    <!-- Stripe SDK -->
+    <!-- Payment SDKs (load before main.js) -->
+    <!-- Stripe: Replace YOUR_STRIPE_PUBLISHABLE_KEY in main.js -->
     <script src="https://js.stripe.com/v3/"></script>
-    
-    <!-- PayPal SDK (replace YOUR_PAYPAL_CLIENT_ID with your actual client ID) -->
+    <!-- PayPal: Replace YOUR_PAYPAL_CLIENT_ID with your actual client ID -->
     <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&currency=USD"></script>
-
-    <script>
-    /* ========================================================================
-     * PAYMENT INTEGRATION - STRIPE & PAYPAL
-     * ========================================================================
-     * 
-     * STRIPE SETUP:
-     * 1. Create account at https://stripe.com
-     * 2. Go to Developers > API Keys
-     * 3. Copy your "Publishable key" (starts with pk_test_ or pk_live_)
-     * 4. Replace "YOUR_STRIPE_PUBLISHABLE_KEY" below
-     * 
-     * For PRODUCTION payments, you need a backend to create Checkout Sessions.
-     * Options:
-     *   - Netlify Functions
-     *   - Vercel Serverless Functions  
-     *   - Any Node.js/Python server
-     * 
-     * PAYPAL SETUP:
-     * 1. Create account at https://developer.paypal.com
-     * 2. Go to Dashboard > My Apps & Credentials
-     * 3. Create an app and copy the Client ID
-     * 4. Replace "YOUR_PAYPAL_CLIENT_ID" in the script src above
-     * 
-     * ======================================================================== */
-
-    // ============ REPLACE WITH YOUR CREDENTIALS ============
-    const STRIPE_PUBLISHABLE_KEY = "YOUR_STRIPE_PUBLISHABLE_KEY";
-    // ========================================================
-
-    // Initialize Stripe
-    const stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
-
-    // Get cart data from localStorage
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    const taxRate = 0.07;
-
-    // Calculate totals
-    let subtotal = 0;
-    cart.forEach(item => {
-        if (!isNaN(item.price)) {
-            subtotal += item.price * item.quantity;
-        }
-    });
-    const tax = subtotal * taxRate;
-    const grandTotal = subtotal + tax;
-
-    // Render order summary
-    const checkoutBody = document.getElementById("checkout-body");
-    if (checkoutBody) {
-        if (cart.length === 0) {
-            checkoutBody.innerHTML = `<tr><td colspan="4" style="text-align:center;">Your cart is empty.</td></tr>`;
-        } else {
-            checkoutBody.innerHTML = "";
-            cart.forEach(item => {
-                const itemTotal = item.price * item.quantity;
-                checkoutBody.innerHTML += `
-                    <tr>
-                        <td>${item.name}</td>
-                        <td>${item.quantity}</td>
-                        <td>$${item.price.toFixed(2)}</td>
-                        <td>$${itemTotal.toFixed(2)}</td>
-                    </tr>
-                `;
-            });
-        }
-        
-        document.getElementById("subtotal").textContent = `$${subtotal.toFixed(2)}`;
-        document.getElementById("tax").textContent = `$${tax.toFixed(2)}`;
-        document.getElementById("grand-total").textContent = `$${grandTotal.toFixed(2)}`;
-    }
-
-    // Validate delivery form
-    function validateDeliveryForm() {
-        const form = document.getElementById("delivery-info");
-        const inputs = form.querySelectorAll("input[required]");
-        let valid = true;
-        
-        inputs.forEach(input => {
-            if (!input.value.trim()) {
-                valid = false;
-                input.style.borderColor = "#e74c3c";
-            } else {
-                input.style.borderColor = "";
-            }
-        });
-        
-        if (!valid) {
-            alert("Please fill in all delivery information fields.");
-        }
-        return valid;
-    }
-
-    // Get delivery info
-    function getDeliveryInfo() {
-        const form = document.getElementById("delivery-info");
-        return {
-            name: form.querySelector('[name="name"]').value,
-            phone: form.querySelector('[name="phone"]').value,
-            address: form.querySelector('[name="address"]').value,
-            city: form.querySelector('[name="city"]').value,
-            zip: form.querySelector('[name="zip"]').value
-        };
-    }
-
-    /* ========================================================================
-     * STRIPE CHECKOUT
-     * ======================================================================== */
     
-    // For static sites without a backend, we'll use Stripe Payment Links
-    // or you can set up a simple serverless function
-    
-    document.getElementById("stripe-btn")?.addEventListener("click", async () => {
-        if (cart.length === 0) {
-            alert("Your cart is empty!");
-            return;
-        }
-        
-        if (!validateDeliveryForm()) return;
-        
-        const deliveryInfo = getDeliveryInfo();
-        
-        // Store delivery info for after payment
-        localStorage.setItem("deliveryInfo", JSON.stringify(deliveryInfo));
-        
-        /* 
-         * OPTION 1: Stripe Payment Links (No backend needed)
-         * Create a Payment Link in Stripe Dashboard and redirect to it
-         * 
-         * OPTION 2: Stripe Checkout with backend (Recommended for production)
-         * Your backend creates a checkout session and returns the URL
-         */
-        
-        // For now, show instructions - replace with actual implementation
-        if (STRIPE_PUBLISHABLE_KEY === "YOUR_STRIPE_PUBLISHABLE_KEY") {
-            alert("Stripe not configured yet.\n\nTo set up:\n1. Add your Stripe Publishable Key\n2. Create a backend endpoint to generate Checkout Sessions\n\nSee code comments for details.");
-            return;
-        }
-        
-        // Example: If you have a backend endpoint
-        try {
-            const response = await fetch("/api/create-checkout-session", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    items: cart,
-                    deliveryInfo: deliveryInfo
-                })
-            });
-            
-            const { sessionId } = await response.json();
-            
-            // Redirect to Stripe Checkout
-            const result = await stripe.redirectToCheckout({ sessionId });
-            
-            if (result.error) {
-                alert(result.error.message);
-            }
-        } catch (error) {
-            console.error("Stripe error:", error);
-            alert("Payment failed. Please try again.");
-        }
-    });
-
-    /* ========================================================================
-     * PAYPAL CHECKOUT
-     * ======================================================================== */
-    
-    // PayPal Button Container
-    const paypalContainer = document.getElementById("paypal-button-container");
-    
-    if (paypalContainer && typeof paypal !== 'undefined' && cart.length > 0) {
-        paypal.Buttons({
-            style: {
-                layout: 'horizontal',
-                color: 'gold',
-                shape: 'rect',
-                label: 'paypal'
-            },
-            
-            createOrder: function(data, actions) {
-                if (!validateDeliveryForm()) {
-                    return actions.reject();
-                }
-                
-                return actions.order.create({
-                    purchase_units: [{
-                        description: "Zonta Club of Naples - Order",
-                        amount: {
-                            currency_code: "USD",
-                            value: grandTotal.toFixed(2),
-                            breakdown: {
-                                item_total: { currency_code: "USD", value: subtotal.toFixed(2) },
-                                tax_total: { currency_code: "USD", value: tax.toFixed(2) }
-                            }
-                        },
-                        items: cart.map(item => ({
-                            name: item.name,
-                            unit_amount: { currency_code: "USD", value: item.price.toFixed(2) },
-                            quantity: item.quantity.toString()
-                        }))
-                    }]
-                });
-            },
-            
-            onApprove: function(data, actions) {
-                return actions.order.capture().then(function(details) {
-                    // Payment successful!
-                    const deliveryInfo = getDeliveryInfo();
-                    
-                    // Clear cart
-                    localStorage.removeItem("cart");
-                    
-                    // Show success message
-                    alert(`Thank you for your purchase, ${details.payer.name.given_name}!\n\nOrder ID: ${data.orderID}\n\nYour order will be shipped to:\n${deliveryInfo.address}\n${deliveryInfo.city}, ${deliveryInfo.zip}`);
-                    
-                    // Redirect to home or confirmation page
-                    window.location.href = "index.html";
-                });
-            },
-            
-            onError: function(err) {
-                console.error("PayPal error:", err);
-                alert("Payment failed. Please try again.");
-            },
-            
-            onCancel: function(data) {
-                console.log("Payment cancelled");
-            }
-            
-        }).render('#paypal-button-container');
-    }
-    </script>
+    <script src="assets/js/main.js"></script>
 
 </body>
 </html>

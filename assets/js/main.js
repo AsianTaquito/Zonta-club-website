@@ -65,6 +65,30 @@
 
     document.addEventListener("DOMContentLoaded", () => {
 
+        // Sticky Nav on Scroll
+        const nav = document.getElementById("nav");
+        const headerSection = document.getElementById("header");
+        
+        if (nav && headerSection) {
+            // Get the bottom of the header section as the trigger point
+            function getHeaderBottom() {
+                return headerSection.offsetTop + headerSection.offsetHeight;
+            }
+            
+            window.addEventListener("scroll", () => {
+                const scrollY = window.scrollY || window.pageYOffset;
+                const headerBottom = getHeaderBottom();
+                
+                if (scrollY > headerBottom - 60) {
+                    // User has scrolled past the header - make nav sticky
+                    nav.classList.add("sticky");
+                } else {
+                    // User is within the header section - return nav to normal
+                    nav.classList.remove("sticky");
+                }
+            });
+        }
+
         // NavBar Cart Counter 
         function updateCartCount() {
             const cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -283,11 +307,12 @@
             const tbody = document.getElementById("checkout-body");
             const taxRate = 0.07;
 
+            let subtotal = 0;
+            
             if (cart.length === 0) {
                 tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;">Your cart is empty.</td></tr>`;
                 ["subtotal", "tax", "grand-total"].forEach(id => document.getElementById(id).textContent = "$0.00");
             } else {
-                let subtotal = 0;
                 cart.forEach(item => {
                     const total = item.price * item.quantity;
                     subtotal += total;
@@ -307,6 +332,166 @@
                 document.getElementById("subtotal").textContent = `$${subtotal.toFixed(2)}`;
                 document.getElementById("tax").textContent = `$${tax.toFixed(2)}`;
                 document.getElementById("grand-total").textContent = `$${grandTotal.toFixed(2)}`;
+                
+                // ================================================================
+                // PAYMENT INTEGRATION - STRIPE & PAYPAL
+                // ================================================================
+                // 
+                // STRIPE SETUP:
+                // 1. Create account at https://stripe.com
+                // 2. Go to Developers > API Keys
+                // 3. Copy your "Publishable key" (starts with pk_test_ or pk_live_)
+                // 4. Replace "YOUR_STRIPE_PUBLISHABLE_KEY" below
+                // 
+                // For PRODUCTION payments, you need a backend to create Checkout Sessions.
+                // Options: Netlify Functions, Vercel Serverless Functions, Node.js server
+                // 
+                // PAYPAL SETUP:
+                // 1. Create account at https://developer.paypal.com
+                // 2. Go to Dashboard > My Apps & Credentials
+                // 3. Create an app and copy the Client ID
+                // 4. Replace "YOUR_PAYPAL_CLIENT_ID" in checkout.html script src
+                // ================================================================
+                
+                const STRIPE_PUBLISHABLE_KEY = "YOUR_STRIPE_PUBLISHABLE_KEY";
+                
+                // Validate delivery form
+                function validateDeliveryForm() {
+                    const form = document.getElementById("delivery-info");
+                    if (!form) return true;
+                    
+                    const inputs = form.querySelectorAll("input[required]");
+                    let valid = true;
+                    
+                    inputs.forEach(input => {
+                        if (!input.value.trim()) {
+                            valid = false;
+                            input.style.borderColor = "#e74c3c";
+                        } else {
+                            input.style.borderColor = "";
+                        }
+                    });
+                    
+                    if (!valid) {
+                        alert("Please fill in all delivery information fields.");
+                    }
+                    return valid;
+                }
+                
+                // Get delivery info
+                function getDeliveryInfo() {
+                    const form = document.getElementById("delivery-info");
+                    if (!form) return {};
+                    return {
+                        name: form.querySelector('[name="name"]')?.value || "",
+                        phone: form.querySelector('[name="phone"]')?.value || "",
+                        address: form.querySelector('[name="address"]')?.value || "",
+                        city: form.querySelector('[name="city"]')?.value || "",
+                        zip: form.querySelector('[name="zip"]')?.value || ""
+                    };
+                }
+                
+                // STRIPE CHECKOUT
+                const stripeBtn = document.getElementById("stripe-btn");
+                if (stripeBtn && typeof Stripe !== 'undefined') {
+                    const stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
+                    
+                    stripeBtn.addEventListener("click", async () => {
+                        if (cart.length === 0) {
+                            alert("Your cart is empty!");
+                            return;
+                        }
+                        
+                        if (!validateDeliveryForm()) return;
+                        
+                        const deliveryInfo = getDeliveryInfo();
+                        localStorage.setItem("deliveryInfo", JSON.stringify(deliveryInfo));
+                        
+                        // Show setup instructions if not configured
+                        if (STRIPE_PUBLISHABLE_KEY === "YOUR_STRIPE_PUBLISHABLE_KEY") {
+                            alert("Stripe not configured yet.\n\nTo set up:\n1. Add your Stripe Publishable Key in main.js\n2. Create a backend endpoint to generate Checkout Sessions\n\nSee code comments for details.");
+                            return;
+                        }
+                        
+                        // Backend integration for Stripe Checkout
+                        try {
+                            const response = await fetch("/api/create-checkout-session", {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ items: cart, deliveryInfo })
+                            });
+                            
+                            const { sessionId } = await response.json();
+                            const result = await stripe.redirectToCheckout({ sessionId });
+                            
+                            if (result.error) {
+                                alert(result.error.message);
+                            }
+                        } catch (error) {
+                            console.error("Stripe error:", error);
+                            alert("Payment failed. Please try again.");
+                        }
+                    });
+                }
+                
+                // PAYPAL CHECKOUT
+                const paypalContainer = document.getElementById("paypal-button-container");
+                if (paypalContainer && typeof paypal !== 'undefined') {
+                    paypal.Buttons({
+                        style: {
+                            layout: 'horizontal',
+                            color: 'gold',
+                            shape: 'rect',
+                            label: 'paypal'
+                        },
+                        
+                        createOrder: function(data, actions) {
+                            if (!validateDeliveryForm()) {
+                                return actions.reject();
+                            }
+                            
+                            return actions.order.create({
+                                purchase_units: [{
+                                    description: "Zonta Club of Naples - Order",
+                                    amount: {
+                                        currency_code: "USD",
+                                        value: grandTotal.toFixed(2),
+                                        breakdown: {
+                                            item_total: { currency_code: "USD", value: subtotal.toFixed(2) },
+                                            tax_total: { currency_code: "USD", value: tax.toFixed(2) }
+                                        }
+                                    },
+                                    items: cart.map(item => ({
+                                        name: item.name,
+                                        unit_amount: { currency_code: "USD", value: item.price.toFixed(2) },
+                                        quantity: item.quantity.toString()
+                                    }))
+                                }]
+                            });
+                        },
+                        
+                        onApprove: function(data, actions) {
+                            return actions.order.capture().then(function(details) {
+                                const deliveryInfo = getDeliveryInfo();
+                                localStorage.removeItem("cart");
+                                
+                                alert(`Thank you for your purchase, ${details.payer.name.given_name}!\n\nOrder ID: ${data.orderID}\n\nYour order will be shipped to:\n${deliveryInfo.address}\n${deliveryInfo.city}, ${deliveryInfo.zip}`);
+                                
+                                window.location.href = "index.html";
+                            });
+                        },
+                        
+                        onError: function(err) {
+                            console.error("PayPal error:", err);
+                            alert("Payment failed. Please try again.");
+                        },
+                        
+                        onCancel: function() {
+                            console.log("Payment cancelled");
+                        }
+                        
+                    }).render('#paypal-button-container');
+                }
             }
         }
 
