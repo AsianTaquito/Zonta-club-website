@@ -71,7 +71,7 @@
 							while advocating change, educating the community and helping direct responders and law enforcement.
 							We say NO to violence and YES to equal opportunity and rights for women and girls of Collier County.</p>
 						<ul class="actions">
-							<li><a class="button style3 large">Donate</a></li>
+							<li><a class="button style3 large" id="donate-button">Donate</a></li>
 						</ul>
 					</div>
 				</section>
@@ -331,6 +331,24 @@
 					</div>
 				</section>
 
+		</div>
+
+		<!-- Donation Modal -->
+		<div id="donation-modal" class="modal-overlay">
+			<div class="modal-content box post">
+				<header class="style1">
+					<h2>Make a Donation</h2>
+					<p>Please enter the amount you wish to donate.</p>
+				</header>
+				<div class="modal-body">
+					<label for="donation-amount">Amount (USD)</label>
+					<input type="number" id="donation-amount" min="1" step="1" placeholder="25" />
+					<ul class="actions">
+						<li><button class="button style1" id="donation-confirm">Add Donation</button></li>
+						<li><button class="button style2" id="donation-cancel">Cancel</button></li>
+					</ul>
+				</div>
+			</div>
 		</div>
 
 		<!-- Scripts -->

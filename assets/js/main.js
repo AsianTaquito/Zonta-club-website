@@ -129,6 +129,73 @@
         });
 
 
+        // Donate Button & Modal
+        const donateBtn = document.getElementById("donate-button");
+        const donationModal = document.getElementById("donation-modal");
+        const donationAmount = document.getElementById("donation-amount");
+        const donationConfirm = document.getElementById("donation-confirm");
+        const donationCancel = document.getElementById("donation-cancel");
+
+        if (donateBtn && donationModal) {
+            // Open modal
+            donateBtn.addEventListener("click", e => {
+                e.preventDefault();
+                donationModal.classList.add("active");
+                donationAmount.value = "";
+                donationAmount.focus();
+            });
+
+            // Cancel - close modal
+            donationCancel.addEventListener("click", e => {
+                e.preventDefault();
+                donationModal.classList.remove("active");
+            });
+
+            // Close on overlay click
+            donationModal.addEventListener("click", e => {
+                if (e.target === donationModal) {
+                    donationModal.classList.remove("active");
+                }
+            });
+
+            // Confirm donation - add to cart using same pattern as shop items
+            donationConfirm.addEventListener("click", e => {
+                e.preventDefault();
+                const amt = parseFloat(donationAmount.value);
+
+                if (isNaN(amt) || amt <= 0) {
+                    alert("Please enter a valid donation amount.");
+                    donationAmount.focus();
+                    return;
+                }
+
+                // Add donation to cart using same structure as shop items
+                let cart = JSON.parse(localStorage.getItem("cart")) || [];
+                
+                // Check if donation already exists, update it
+                const existingDonation = cart.find(item => item.id === "donation");
+                if (existingDonation) {
+                    existingDonation.price = amt;
+                    existingDonation.quantity = 1;
+                } else {
+                    cart.push({
+                        id: "donation",
+                        name: "Donation",
+                        price: amt,
+                        quantity: 1
+                    });
+                }
+
+                localStorage.setItem("cart", JSON.stringify(cart));
+                updateCartCount();
+                donationModal.classList.remove("active");
+
+                // Navigate to cart page
+                window.location.href = "cart.html";
+            });
+        }
+
+
         // Cart Page 
         if (document.getElementById("cart-body")) {
             let cart = JSON.parse(localStorage.getItem("cart")) || [];
