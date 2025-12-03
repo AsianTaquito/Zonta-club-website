@@ -2747,6 +2747,11 @@ input, textarea {
     	opacity: 1;
 	}
 
+	/* Hide caption when nav is hovered */
+	#header:has(#nav:hover) #header-caption {
+		opacity: 0 !important;
+	}
+
 
 
 /* Nav */
@@ -3394,62 +3399,76 @@ input, textarea {
     svg {
         display: inline; 
     }
-		
-	/* Center product contents */
-	.highlight {
-		text-align: center !important;
-	}
+}
 
-	/* Buttons container: inline, centered */
+/* Shop Page Buttons */
+.highlight {
+	text-align: center;
+}
+
+.highlight .actions {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.75rem;
+	padding: 0;
+	margin-top: 1rem;
+	width: 100%;
+}
+
+.highlight .actions li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	width: 100%;
+	max-width: 200px;
+}
+
+.highlight .actions .button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	padding: 0.75em 1.5em;
+	text-align: center;
+	box-sizing: border-box;
+	white-space: nowrap;
+}
+
+/* Tablet: buttons side-by-side */
+@media screen and (min-width: 481px) and (max-width: 980px) {
 	.highlight .actions {
-		display: flex !important;
-		justify-content: center !important;
-		align-items: center !important;
-		gap: 0.75rem !important;
-		padding: 0 !important;
-		margin-top: 1rem !important;
-		float: none !important;
-		position: static !important;
-		width: 100% !important;
-		box-sizing: border-box !important;
-		flex-wrap: nowrap !important; /* prevent wrapping */
+		flex-direction: row;
+		justify-content: center;
+		flex-wrap: wrap;
 	}
-
-	/* List items */
+	
 	.highlight .actions li {
-		margin: 0 !important;
-		list-style: none !important;
-		display: inline-flex !important;
-		align-items: center !important;
-		justify-content: center !important;
-		padding: 0 !important;
+		width: auto;
+		max-width: none;
 	}
-
-	/* Buttons: same size */
-		.highlight .actions .button {
-		display: inline-flex !important;
-		align-items: center !important;
-		justify-content: center !important;
-		flex: 0 0 200px !important; /* fixed width */
-		padding: 0.5rem 0.75rem !important;
-		text-align: center !important;
-		box-sizing: border-box !important;
-		white-space: nowrap !important;
+	
+	.highlight .actions .button {
+		min-width: 140px;
+		width: auto;
 	}
+}
 
-	/* Force buttons inline*/
-	@media (max-width: 768px) {
-		.highlight .actions {
-			flex-direction: row !important;
-			flex-wrap: nowrap !important;
-		}
-		.highlight .actions .button {
-			flex: 1 1 auto !important;      
-			max-width: 140px !important;
-		}
+/* Phone: buttons stacked vertically again */
+@media screen and (max-width: 480px) {
+	.highlight .actions {
+		flex-direction: column;
+		align-items: center;
 	}
-
-
+	
+	.highlight .actions li {
+		width: 100%;
+		max-width: 200px;
+	}
+	
+	.highlight .actions .button {
+		width: 100%;
+	}
 }
 
 /* Donation Modal */
@@ -3513,4 +3532,34 @@ input, textarea {
 	list-style: none;
 	padding: 0;
 	margin: 0;
+}
+
+/* Toast Notification */
+.toast-notification {
+	position: fixed;
+	top: 20px;
+	left: 50%;
+	transform: translateX(-50%) translateY(-100px);
+	background: #885BA6;
+	color: #fff;
+	padding: 1em 2em;
+	border-radius: 0.5em;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+	z-index: 10001;
+	font-weight: 600;
+	font-size: 1em;
+	letter-spacing: 0.05em;
+	opacity: 0;
+	transition: transform 0.4s ease, opacity 0.4s ease;
+	pointer-events: none;
+}
+
+.toast-notification.show {
+	transform: translateX(-50%) translateY(0);
+	opacity: 1;
+}
+
+.toast-notification .toast-icon {
+	display: inline-block;
+	margin-right: 0.5em;
 }

@@ -116,6 +116,28 @@
             });
         });
 
+        // Toast notification function
+        function showToast(message, duration = 2500) {
+            // Remove existing toast if any
+            const existingToast = document.querySelector('.toast-notification');
+            if (existingToast) existingToast.remove();
+
+            // Create toast element
+            const toast = document.createElement('div');
+            toast.className = 'toast-notification';
+            toast.innerHTML = `<span class="toast-icon">✓</span>${message}`;
+            document.body.appendChild(toast);
+
+            // Trigger animation
+            setTimeout(() => toast.classList.add('show'), 10);
+
+            // Remove after duration
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 400);
+            }, duration);
+        }
+
         // Add-to-cart buttons 
         document.querySelectorAll(".add-to-cart").forEach(btn => {
             btn.addEventListener("click", e => {
@@ -124,7 +146,7 @@
                 const section = btn.closest("section.highlight");
                 addItemToCart(section, btn.dataset.id);
 
-                alert("Item added to cart!");
+                showToast("Item added to cart!");
             });
         });
 
@@ -352,12 +374,40 @@
             });
         }
 
-       // Google Calendar Events 
+       /* 
+        * GOOGLE CALENDAR INTEGRATION
+        * 
+        * To connect to your Google Calendar:
+        * 
+        * 1. Go to Google Cloud Console: https://console.cloud.google.com/
+        * 2. Create a new project (or select existing)
+        * 3. Enable "Google Calendar API" in APIs & Services > Library
+        * 4. Create API credentials: APIs & Services > Credentials > Create Credentials > API Key
+        * 5. Copy your API key and replace "YOUR_API_KEY" below
+        * 
+        * 6. Get your Calendar ID:
+        *    - Go to Google Calendar > Settings > [Your Calendar] > Integrate calendar
+        *    - Copy the "Calendar ID" (looks like: abc123@group.calendar.google.com)
+        *    - For public calendars, use the email-style ID
+        *    - Replace "YOUR_CALENDAR_ID" below
+        * 
+        * 7. Make sure your calendar is PUBLIC:
+        *    - Google Calendar > Settings > [Your Calendar] > Access permissions
+        *    - Check "Make available to public"
+        * 
+        * The events will auto-load and refresh every 24 hours.
+        */
+        
         const eventsList = document.getElementById("events-list");
 
         if (eventsList) {
+            // REPLACE THESE WITH YOUR CREDENTIALS 
             const API_KEY = "YOUR_API_KEY";
             const CAL_ID = "YOUR_CALENDAR_ID";
+            
+
+            // Show loading state
+            eventsList.innerHTML = `<li class="no-events-message">Loading events...</li>`;
 
             function loadCalendarEvents() {
                 const now = new Date();
@@ -375,7 +425,7 @@
                 fetch(url)
                     .then(res => res.json())
                     .then(data => {
-                        eventsList.innerHTML = ""; // clear previous items
+                        eventsList.innerHTML = ""; 
 
                         if (!data.items || data.items.length === 0) {
                             eventsList.innerHTML = `<li class="no-events-message">No upcoming events in the next 30 days.</li>`;
@@ -384,26 +434,48 @@
 
                         data.items.forEach(event => {
                             const li = document.createElement("li");
+                            
+                            // Parse start date/time
                             const start = event.start.dateTime || event.start.date;
                             const date = new Date(start);
-
+                            
+                            // Format date: "Month Day, Year"
                             const dateStr = date.toLocaleDateString("en-US", {
-                                weekday: "short",
-                                month: "short",
-                                day: "numeric"
+                                month: "long",
+                                day: "numeric",
+                                year: "numeric"
                             });
-
+                            
+                            // Format time: "2:00 PM" or "All day"
                             const timeStr = event.start.dateTime
                                 ? date.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })
                                 : "All day";
-
-                            li.innerHTML = `<strong>${event.summary || "Untitled Event"}</strong><br>${dateStr} • ${timeStr}`;
+                            
+                            // Build event HTML matching your example structure
+                            const title = event.summary || "Untitled Event";
+                            const location = event.location || "";
+                            const description = event.description || "";
+                            
+                            let html = `<h3>${title}</h3>`;
+                            html += `<p>Date: ${dateStr} at ${timeStr}</p>`;
+                            
+                            if (location) {
+                                html += `<p>Location: ${location}</p>`;
+                            }
+                            
+                            if (description) {
+                                // Truncate long descriptions and strip HTML
+                                const cleanDesc = description.replace(/<[^>]*>/g, '').substring(0, 200);
+                                html += `<p>${cleanDesc}${description.length > 200 ? '...' : ''}</p>`;
+                            }
+                            
+                            li.innerHTML = html;
                             eventsList.appendChild(li);
                         });
                     })
                     .catch(err => {
                         console.error("Calendar API error:", err);
-                        eventsList.innerHTML = `<li class="no-events-message">Unable to load events.</li>`;
+                        eventsList.innerHTML = `<li class="no-events-message">Unable to load events. Please check API configuration.</li>`;
                     });
             }
 
