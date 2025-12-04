@@ -434,63 +434,74 @@
                     });
                 }
                 
-                // PAYPAL CHECKOUT
-                const paypalContainer = document.getElementById("paypal-button-container");
-                if (paypalContainer && typeof paypal !== 'undefined') {
-                    paypal.Buttons({
-                        style: {
-                            layout: 'horizontal',
-                            color: 'gold',
-                            shape: 'rect',
-                            label: 'paypal'
-                        },
-                        
-                        createOrder: function(data, actions) {
-                            if (!validateDeliveryForm()) {
-                                return actions.reject();
-                            }
-                            
-                            return actions.order.create({
-                                purchase_units: [{
-                                    description: "Zonta Club of Naples - Order",
-                                    amount: {
-                                        currency_code: "USD",
-                                        value: grandTotal.toFixed(2),
-                                        breakdown: {
-                                            item_total: { currency_code: "USD", value: subtotal.toFixed(2) },
-                                            tax_total: { currency_code: "USD", value: tax.toFixed(2) }
-                                        }
-                                    },
-                                    items: cart.map(item => ({
-                                        name: item.name,
-                                        unit_amount: { currency_code: "USD", value: item.price.toFixed(2) },
-                                        quantity: item.quantity.toString()
-                                    }))
-                                }]
-                            });
-                        },
-                        
-                        onApprove: function(data, actions) {
-                            return actions.order.capture().then(function(details) {
-                                const deliveryInfo = getDeliveryInfo();
-                                localStorage.removeItem("cart");
-                                
-                                alert(`Thank you for your purchase, ${details.payer.name.given_name}!\n\nOrder ID: ${data.orderID}\n\nYour order will be shipped to:\n${deliveryInfo.address}\n${deliveryInfo.city}, ${deliveryInfo.zip}`);
-                                
-                                window.location.href = "index.html";
-                            });
-                        },
-                        
-                        onError: function(err) {
-                            console.error("PayPal error:", err);
-                            alert("Payment failed. Please try again.");
-                        },
-                        
-                        onCancel: function() {
-                            console.log("Payment cancelled");
+                // PAYPAL CHECKOUT - Using custom PayPal button
+                const paypalBtn = document.getElementById("paypal-btn");
+                if (paypalBtn) {
+                    paypalBtn.addEventListener("click", () => {
+                        if (cart.length === 0) {
+                            alert("Your cart is empty!");
+                            return;
                         }
                         
-                    }).render('#paypal-button-container');
+                        if (!validateDeliveryForm()) return;
+                        
+                        // Check if PayPal SDK is loaded
+                        if (typeof paypal === 'undefined') {
+                            alert("PayPal not configured yet.\n\nTo set up:\n1. Go to developer.paypal.com\n2. Create an app and get your Client ID\n3. Replace YOUR_PAYPAL_CLIENT_ID in checkout.html script src");
+                            return;
+                        }
+                        
+                        // Store delivery info
+                        const deliveryInfo = getDeliveryInfo();
+                        localStorage.setItem("deliveryInfo", JSON.stringify(deliveryInfo));
+                        
+                        // Create and trigger PayPal checkout
+                        paypal.Buttons({
+                            createOrder: function(data, actions) {
+                                return actions.order.create({
+                                    purchase_units: [{
+                                        description: "Zonta Club of Naples - Order",
+                                        amount: {
+                                            currency_code: "USD",
+                                            value: grandTotal.toFixed(2),
+                                            breakdown: {
+                                                item_total: { currency_code: "USD", value: subtotal.toFixed(2) },
+                                                tax_total: { currency_code: "USD", value: tax.toFixed(2) }
+                                            }
+                                        },
+                                        items: cart.map(item => ({
+                                            name: item.name,
+                                            unit_amount: { currency_code: "USD", value: item.price.toFixed(2) },
+                                            quantity: item.quantity.toString()
+                                        }))
+                                    }]
+                                });
+                            },
+                            
+                            onApprove: function(data, actions) {
+                                return actions.order.capture().then(function(details) {
+                                    localStorage.removeItem("cart");
+                                    
+                                    alert(`Thank you for your purchase, ${details.payer.name.given_name}!\n\nOrder ID: ${data.orderID}\n\nYour order will be shipped to:\n${deliveryInfo.address}\n${deliveryInfo.city}, ${deliveryInfo.zip}`);
+                                    
+                                    window.location.href = "index.html";
+                                });
+                            },
+                            
+                            onError: function(err) {
+                                console.error("PayPal error:", err);
+                                alert("Payment failed. Please try again.");
+                            },
+                            
+                            onCancel: function() {
+                                console.log("Payment cancelled");
+                            }
+                            
+                        }).render('#paypal-btn').catch(function() {
+                            // If render to button fails, try opening PayPal directly
+                            alert("PayPal checkout initiated. If a popup didn't open, please check your popup blocker.");
+                        });
+                    });
                 }
             }
         }
@@ -506,13 +517,12 @@
 
             const imageSets = {
                 "index.html": [
-                    { src: "images/Header images/IndexHeader.JPG", caption: "Zonta international district meeting" },
+                    { src: "images/Header images/IndexHeader.jpg", caption: "Zonta international district meeting" },
                     { src: "images/Header images/IndexHeader01.JPG", caption: "" },
                     { src: "images/Header images/IndexHeader02.jpg", caption: "Zonta Club of Naples" },
-                    { src: "images/Header images/IndexHeader03.jpg", caption: "" },
+                    { src: "images/Header images/IndexHeader03.JPG", caption: "" },
                     { src: "images/Header images/IndexHeader04.jpeg", caption: "" },
-                    { src: "images/Header images/IndexHeader05.jpg", caption: "" },
-                    { src: "images/Header images/Zonta Club Naples.jpeg", caption: "" }
+                    { src: "images/Header images/IndexHeader05.jpeg", caption: "" }
                 ],
                 "left-sidebar.html": [
                     { src: "images/Header images/LeftHeader02.jpg", caption: "Club Brunch" },
