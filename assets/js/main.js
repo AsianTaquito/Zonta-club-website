@@ -287,7 +287,7 @@
                 let subtotal = 0;
 
                 cart.forEach((item, i) => {
-                    const hasPrice = !isNaN(item.price);
+                    const hasPrice = item.price != null && !isNaN(item.price);
 
                     const total = hasPrice ? item.price * item.quantity : NaN;
 
@@ -536,7 +536,6 @@
                             }
                             
                         }).render('#paypal-btn').catch(function() {
-                            // If render to button fails, try opening PayPal directly
                             alert("PayPal checkout initiated. If a popup didn't open, please check your popup blocker.");
                         });
                     });
@@ -570,12 +569,12 @@
                 ],
                 "right-sidebar.html": [
                     { src: "images/Header images/ScholarshipBanner01.jpeg", caption: "Memorial Scholarship Endowment Fund" },
-                    { src: "images/Header images/Scholarshipbanner02.jpeg", caption: "A thing they did" },
+                    { src: "images/Header images/ScholarshipBanner02.jpeg", caption: "A thing they did" },
                     { src: "images/Header images/ScholarshipBanner03.webp", caption: "25k check for something" }
                 ]
             };
 
-            const images = imageSets[page] || [{ src: "images/Header images/Zonta logo-cropped Jpeg.jpg"}];
+            const images = imageSets[page] || [{ src: "images/Header%20images/Zonta%20logo-cropped%20Jpeg.jpg", caption: "" }];
             let index = 0;
 
             function changeBackground() {

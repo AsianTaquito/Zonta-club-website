@@ -3746,6 +3746,16 @@ input, textarea {
 	margin: 0;
 }
 
+/* Donation Modal - Add button gold fill animation */
+#donation-confirm::before,
+#donation-confirm::after {
+	background-color: #FED692;
+}
+
+#donation-confirm:hover {;
+	color: #802528 !important;
+}
+
 /* Toast Notification */
 .toast-notification {
 	position: fixed;
@@ -3776,8 +3786,8 @@ input, textarea {
 	margin-right: 0.5em;
 }
 
-/* Animated Donate Button */
-#donate-button {
+/* Animated Donate Button - only on homepage */
+.homepage #donate-button {
 	position: relative;
 	display: inline-flex;
 	align-items: center;
@@ -3795,7 +3805,7 @@ input, textarea {
 	cursor: pointer;
 }
 
-#donate-button:before {
+.homepage #donate-button:before {
 	position: absolute;
 	content: '';
 	left: 0;
@@ -3808,7 +3818,7 @@ input, textarea {
 	transform: translateX(100%);
 }
 
-#donate-button:after {
+.homepage #donate-button:after {
 	position: absolute;
 	content: '';
 	top: 0;
@@ -3821,20 +3831,20 @@ input, textarea {
 	transform: translateX(-100%);
 }
 
-#donate-button:hover {
+.homepage #donate-button:hover {
 	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
 	background: transparent;
 	color: #FED692 !important;
 }
 
-#donate-button:hover:before {
+.homepage #donate-button:hover:before {
 	border-color: #FED692;
 	height: 100%;
 	transform: translateX(0);
 	transition: 0.3s transform linear, 0.3s height linear 0.3s;
 }
 
-#donate-button:hover:after {
+.homepage #donate-button:hover:after {
 	border-color: #FED692;
 	height: 100%;
 	transform: translateX(0);
