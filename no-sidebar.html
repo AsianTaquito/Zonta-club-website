@@ -82,6 +82,16 @@
                                             </ul>
                                         </section>
                                     </div>
+                                    <div class="col-4 col-12-medium">
+                                        <section class="highlight donation-highlight">
+                                            <a class="image featured"><img src="images/pic05.jpg" alt="" /></a>
+                                            <h3>Make a Donation</h3>
+                                            <p>Support our mission to empower women and girls</p>
+                                            <ul class="actions style1">
+                                                <li><button class="button style1 purchase-button" >Donate Now</button></li>
+                                            </ul>
+                                        </section>
+                                    </div>
                                 </div>
                             </div>
                         </header>
@@ -102,7 +112,7 @@
                     <div class="col-6 col-12-medium">
                         <!-- Contact Form -->
                         <section>
-                            <form method="post" action="#">
+                            <form method="post" action="https://formspree.io/f/mwpgqeaq">
                                 <div class="row gtr-50">
                                     <div class="col-6 col-12-small">
                                         <input type="text" name="name" id="contact-name" placeholder="Name" />
@@ -171,6 +181,24 @@
                 </div>
             </div>
         </section>
+    </div>
+
+    <!-- Donation Modal -->
+    <div id="donation-modal" class="modal-overlay">
+        <div class="modal-content box post">
+            <header class="style1">
+                <h2>Make a Donation</h2>
+                <p>Please enter the amount you wish to donate.</p>
+            </header>
+            <div class="modal-body">
+                <label for="donation-amount">Amount (USD)</label>
+                <input type="number" id="donation-amount" min="1" step="1" placeholder="25" />
+                <ul class="actions">
+                    <li><button class="button style1" id="donation-confirm">Add Donation</button></li>
+                    <li><button class="button style2" id="donation-cancel">Cancel</button></li>
+                </ul>
+            </div>
+        </div>
     </div>
 
     <!-- Scripts -->

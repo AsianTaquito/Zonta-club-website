@@ -2221,6 +2221,9 @@ input, textarea {
 		min-width: 12em;
 		height: 4em;
 		line-height: 4em;
+		position: relative;
+		overflow: hidden;
+		z-index: 1;
 	}
 
 		input[type="button"]:hover,
@@ -2247,6 +2250,40 @@ input, textarea {
 		.button.style1 {
 			background: #885BA6;
 			color: #fff;
+			border: 3px solid #885BA6;
+			transition: color 400ms cubic-bezier(0.83, 0, 0.17, 1);
+		}
+
+		.button.style1::before,
+		button.style1::before,
+		input[type="submit"].style1::before {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 150%;
+			aspect-ratio: 1/1;
+			background-color: #fff;
+			border-radius: 50%;
+			transform: translate(-50%, -50%) scale(0);
+			transition: transform 700ms cubic-bezier(0.76, 0, 0.24, 1);
+			z-index: -1;
+		}
+
+		.button.style1::after,
+		button.style1::after,
+		input[type="submit"].style1::after {
+			content: "";
+			position: absolute;
+			bottom: 0;
+			right: 0;
+			width: 150%;
+			aspect-ratio: 1/1;
+			background-color: #fff;
+			border-radius: 50%;
+			transform: translate(50%, 50%) scale(0);
+			transition: transform 700ms cubic-bezier(0.76, 0, 0.24, 1);
+			z-index: -1;
 		}
 
 			input[type="button"].style1:hover,
@@ -2254,7 +2291,21 @@ input, textarea {
 			input[type="reset"].style1:hover,
 			button.style1:hover,
 			.button.style1:hover {
-				background-color: #9B74B3;
+				background: transparent;
+				color: #885BA6;
+				border-color: #FED692;
+			}
+
+			.button.style1:hover::before,
+			button.style1:hover::before,
+			input[type="submit"].style1:hover::before {
+				transform: translate(-50%, -50%) scale(1);
+			}
+
+			.button.style1:hover::after,
+			button.style1:hover::after,
+			input[type="submit"].style1:hover::after {
+				transform: translate(50%, 50%) scale(1);
 			}
 
 			input[type="button"].style1:active,
@@ -2262,7 +2313,8 @@ input, textarea {
 			input[type="reset"].style1:active,
 			button.style1:active,
 			.button.style1:active {
-				background-color: #885BA6;
+				transform: scale(0.98);
+				filter: brightness(0.9);
 			}
 
 		input[type="button"].style2,
@@ -2271,8 +2323,41 @@ input, textarea {
 		button.style2,
 		.button.style2 {
 			background: none;
-			color: #9B74B3;
-			box-shadow: inset 0px 0px 2px 0px #a0a1a7;
+			color: #885BA6;
+			border: 3px solid #885BA6;
+			transition: color 400ms cubic-bezier(0.83, 0, 0.17, 1);
+		}
+
+		.button.style2::before,
+		button.style2::before,
+		input[type="reset"].style2::before {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 150%;
+			aspect-ratio: 1/1;
+			background-color: #885BA6;
+			border-radius: 50%;
+			transform: translate(-50%, -50%) scale(0);
+			transition: transform 700ms cubic-bezier(0.76, 0, 0.24, 1);
+			z-index: -1;
+		}
+
+		.button.style2::after,
+		button.style2::after,
+		input[type="reset"].style2::after {
+			content: "";
+			position: absolute;
+			bottom: 0;
+			right: 0;
+			width: 150%;
+			aspect-ratio: 1/1;
+			background-color: #885BA6;
+			border-radius: 50%;
+			transform: translate(50%, 50%) scale(0);
+			transition: transform 700ms cubic-bezier(0.76, 0, 0.24, 1);
+			z-index: -1;
 		}
 
 			input[type="button"].style2:hover,
@@ -2280,8 +2365,21 @@ input, textarea {
 			input[type="reset"].style2:hover,
 			button.style2:hover,
 			.button.style2:hover {
-				background-color: #BEA3D2;
-				color: white;
+				background: transparent;
+				color: #fff;
+				border-color: #885BA6;
+			}
+
+			.button.style2:hover::before,
+			button.style2:hover::before,
+			input[type="reset"].style2:hover::before {
+				transform: translate(-50%, -50%) scale(1);
+			}
+
+			.button.style2:hover::after,
+			button.style2:hover::after,
+			input[type="reset"].style2:hover::after {
+				transform: translate(50%, 50%) scale(1);
 			}
 
 			input[type="button"].style2:active,
@@ -2289,7 +2387,8 @@ input, textarea {
 			input[type="reset"].style2:active,
 			button.style2:active,
 			.button.style2:active {
-				background-color: #885BA6;
+				transform: scale(0.98);
+				filter: brightness(0.9);
 			}
 
 		input[type="button"].style3,
@@ -2998,14 +3097,36 @@ input, textarea {
 			border-top-color: rgba(255, 255, 255, 0.05);
 		}
 
+		/* Brutalist Animated Form Inputs */
 		#footer form input[type="text"],
 		#footer form input[type="email"],
 		#footer form input[type="password"],
 		#footer form select,
 		#footer form textarea {
-			background: #ccc;
-			box-shadow: none;
+			background: #fff;
+			color: #000;
+			border: 3px solid #000;
+			border-radius: 0;
+			box-shadow: 4px 4px 0 #000, 8px 8px 0 #885BA6;
+			font-weight: 600;
+			transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+			outline: none;
 		}
+
+			#footer form input[type="text"]::placeholder,
+			#footer form input[type="email"]::placeholder,
+			#footer form input[type="password"]::placeholder,
+			#footer form textarea::placeholder {
+				color: #888;
+				transition: color 0.3s ease;
+			}
+
+			#footer form input[type="text"]:focus::placeholder,
+			#footer form input[type="email"]:focus::placeholder,
+			#footer form input[type="password"]:focus::placeholder,
+			#footer form textarea:focus::placeholder {
+				color: transparent;
+			}
 
 			#footer form input[type="text"]:focus,
 			#footer form input[type="email"]:focus,
@@ -3013,7 +3134,18 @@ input, textarea {
 			#footer form select:focus,
 			#footer form textarea:focus {
 				background: #fff;
+				box-shadow: 4px 4px 0 #000, 8px 8px 0 #5EC8D9;
+				animation: brutalist-focus-pulse 2s cubic-bezier(0.25, 0.8, 0.25, 1) infinite;
 			}
+
+		@keyframes brutalist-focus-pulse {
+			0%, 100% {
+				border-color: #000;
+			}
+			50% {
+				border-color: #885BA6;
+			}
+		}
 
 		#footer input[type="button"],
 		#footer input[type="submit"],
@@ -3021,7 +3153,11 @@ input, textarea {
 		#footer button,
 		#footer .button {
 			color: #fff;
-			box-shadow: inset 0px 0px 2px 0px rgba(255, 255, 255, 0.5);
+			border: 3px solid #000;
+			box-shadow: 4px 4px 0 #000;
+			border-radius: 0;
+			font-weight: bold;
+			transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
 		}
 
 			#footer input[type="button"]:hover,
@@ -3030,7 +3166,8 @@ input, textarea {
 			#footer button:hover,
 			#footer .button:hover {
 				color: #fff;
-				box-shadow: inset 0px 0px 2px 0px rgba(255, 255, 255, 0.65);
+				transform: translate(-2px, -2px);
+				box-shadow: 6px 6px 0 #000;
 			}
 
 			#footer input[type="button"]:active,
@@ -3038,7 +3175,8 @@ input, textarea {
 			#footer input[type="reset"]:active,
 			#footer button:active,
 			#footer .button:active {
-				box-shadow: inset 0px 0px 2px 0px rgba(255, 255, 255, 0.75);
+				transform: translate(2px, 2px);
+				box-shadow: 2px 2px 0 #000;
 			}
 
 			#footer input[type="button"].style2:active,
@@ -3046,7 +3184,8 @@ input, textarea {
 			#footer input[type="reset"].style2:active,
 			#footer button.style2:active,
 			#footer .button.style2:active {
-				box-shadow: inset 0px 0px 2px 0px rgba(255, 255, 255, 0.75);
+				transform: translate(2px, 2px);
+				box-shadow: 2px 2px 0 #000;
 			}
 
 		#footer .title {
@@ -3077,7 +3216,10 @@ input, textarea {
 			}
 
 			#footer .feature-list h3:before {
-				background: #3d4249;
+				background: #282b34;
+				border: 3px solid #282b34;
+				border-radius: 0;
+				box-shadow: 3px 3px 0 #000, 6px 6px 0 #802528;
 			}
 
 /* Copyright */
@@ -3497,6 +3639,12 @@ input, textarea {
 	text-align: center;
 	box-sizing: border-box;
 	white-space: nowrap;
+	border-radius: 9999px;
+	transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.highlight .actions .button:active {
+	transform: scale(0.95);
 }
 
 /* Tablet: buttons side-by-side */
@@ -3626,4 +3774,177 @@ input, textarea {
 .toast-notification .toast-icon {
 	display: inline-block;
 	margin-right: 0.5em;
+}
+
+/* Animated Donate Button */
+#donate-button {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+	padding: 1em 2em;
+	text-align: center;
+	background: transparent;
+	text-transform: uppercase;
+	font-weight: 900;
+	letter-spacing: 0.1em;
+	color: #fff !important;
+	border: none;
+	transition: 0.5s linear;
+	cursor: pointer;
+}
+
+#donate-button:before {
+	position: absolute;
+	content: '';
+	left: 0;
+	bottom: 0;
+	height: 4px;
+	width: 100%;
+	border-bottom: 4px solid transparent;
+	border-left: 4px solid transparent;
+	box-sizing: border-box;
+	transform: translateX(100%);
+}
+
+#donate-button:after {
+	position: absolute;
+	content: '';
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 4px;
+	border-top: 4px solid transparent;
+	border-right: 4px solid transparent;
+	box-sizing: border-box;
+	transform: translateX(-100%);
+}
+
+#donate-button:hover {
+	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+	background: transparent;
+	color: #FED692 !important;
+}
+
+#donate-button:hover:before {
+	border-color: #FED692;
+	height: 100%;
+	transform: translateX(0);
+	transition: 0.3s transform linear, 0.3s height linear 0.3s;
+}
+
+#donate-button:hover:after {
+	border-color: #FED692;
+	height: 100%;
+	transform: translateX(0);
+	transition: 0.3s transform linear, 0.3s height linear 0.5s;
+}
+
+
+/* Quantity Buttons */
+.qty-btn {
+	width: 30px;
+	height: 30px;
+	min-width: 30px;
+	min-height: 30px;
+	border-radius: 50%;
+	border: 1px solid black;
+	background: transparent;
+	cursor: pointer;
+	outline: none;
+	font-size: 1em;
+	font-weight: bold;
+	color: black;
+	transition: transform 0.3s ease, border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+	line-height: 1;
+	margin: 1rem;
+}
+
+.qty-btn:hover {
+	border-color: #27272a;
+	background-color: #27272a;
+	color: #fff;
+}
+
+.qty-btn:active {
+	border-color: #52525b;
+	background-color: #52525b;
+	color: #e4e4e7;
+	transform: scale(0.9);
+	transition: none;
+}
+
+/* Animated Delete/Remove Button */
+.remove-btn {
+	width: 120px;
+	height: 40px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	background: #e62222;
+	border: none;
+	border-radius: 5px;
+	box-shadow: 1px 1px 3px rgba(0,0,0,0.15);
+	position: relative;
+	overflow: hidden;
+}
+
+.remove-btn,
+.remove-btn span {
+	transition: 200ms;
+}
+
+.remove-btn .text {
+	color: white;
+	font-weight: bold;
+	font-size: 0.9em;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	width: 100%;
+	text-align: center;
+}
+
+.remove-btn .icon {
+	position: absolute;
+	border-left: 1px solid #c41b1b;
+	transform: translateX(120px);
+	height: 30px;
+	width: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	opacity: 0;
+}
+
+.remove-btn svg {
+	width: 12px;
+	fill: #eee;
+}
+
+.remove-btn:hover {
+	background: #ff3636;
+}
+
+.remove-btn:hover .text {
+	color: transparent;
+}
+
+.remove-btn:hover .icon {
+	width: 120px;
+	border-left: none;
+	transform: translateX(0);
+	opacity: 1;
+}
+
+.remove-btn:focus {
+	outline: none;
+}
+
+.remove-btn:active .icon svg {
+	transform: scale(0.8);
 }

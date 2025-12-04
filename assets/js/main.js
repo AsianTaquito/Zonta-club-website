@@ -175,6 +175,41 @@
         });
 
 
+        // Contact Form - AJAX submission with Formspree
+        document.querySelectorAll('form[action*="formspree.io"]').forEach(form => {
+            form.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                
+                const submitBtn = form.querySelector('input[type="submit"]');
+                const originalValue = submitBtn.value;
+                submitBtn.value = "Sending...";
+                submitBtn.disabled = true;
+
+                try {
+                    const response = await fetch(form.action, {
+                        method: "POST",
+                        body: new FormData(form),
+                        headers: {
+                            "Accept": "application/json"
+                        }
+                    });
+
+                    if (response.ok) {
+                        form.reset();
+                        showToast("Message sent successfully!");
+                    } else {
+                        showToast("Oops! Something went wrong. Please try again.");
+                    }
+                } catch (error) {
+                    showToast("Oops! Something went wrong. Please try again.");
+                }
+
+                submitBtn.value = originalValue;
+                submitBtn.disabled = false;
+            });
+        });
+
+
         // Donate Button & Modal
         const donateBtn = document.getElementById("donate-button");
         const donationModal = document.getElementById("donation-modal");
@@ -268,7 +303,7 @@
                             </td>
                             <td>${hasPrice ? `$${item.price.toFixed(2)}` : "—"}</td>
                             <td>${hasPrice ? `$${total.toFixed(2)}` : "—"}</td>
-                            <td><button class="remove-btn" data-index="${i}">X</button></td>
+                            <td><button class="remove-btn" data-index="${i}"><span class="text">Delete</span><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"></path></svg></span></button></td>
                         </tr>
                     `;
                 });
@@ -279,19 +314,22 @@
                 updateCartCount();
             }
 
-            // Quantity change + removal
+            // Quantity change + removal (robust to nested elements)
             document.addEventListener("click", e => {
-                if (e.target.classList.contains("qty-btn")) {
-                    const i = parseInt(e.target.dataset.index);
-                    cart[i].quantity += parseInt(e.target.dataset.change);
+                const qtyBtn = e.target.closest && e.target.closest(".qty-btn");
+                if (qtyBtn) {
+                    const i = parseInt(qtyBtn.dataset.index);
+                    cart[i].quantity += parseInt(qtyBtn.dataset.change);
 
                     if (cart[i].quantity <= 0) cart.splice(i, 1);
 
                     renderCart();
+                    return;
                 }
 
-                if (e.target.classList.contains("remove-btn")) {
-                    const i = parseInt(e.target.dataset.index);
+                const removeBtn = e.target.closest && e.target.closest(".remove-btn");
+                if (removeBtn) {
+                    const i = parseInt(removeBtn.dataset.index);
                     cart.splice(i, 1);
                     renderCart();
                 }
