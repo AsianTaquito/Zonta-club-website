@@ -3891,7 +3891,7 @@ input, textarea {
 
 /* Animated Delete/Remove Button */
 .remove-btn {
-	width: 120px;
+	width: auto;
 	height: 40px;
 	cursor: pointer;
 	display: flex;
@@ -3923,7 +3923,7 @@ input, textarea {
 	position: absolute;
 	border-left: 1px solid #c41b1b;
 	transform: translateX(120px);
-	height: 30px;
+	height: 20px;
 	width: 40px;
 	display: flex;
 	align-items: center;
@@ -3945,7 +3945,7 @@ input, textarea {
 }
 
 .remove-btn:hover .icon {
-	width: 120px;
+	width: 20px;
 	border-left: none;
 	transform: translateX(0);
 	opacity: 1;
