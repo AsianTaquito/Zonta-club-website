@@ -6,11 +6,9 @@
 ![Google Calendar Badge](https://img.shields.io/badge/Google%20Calendar-API%20Integration-lightgrey?logo=googlecalendar&logoColor=white)
 ![Header Carousel Badge](https://img.shields.io/badge/Header%20Carousel-Image%20Rotation-purple)
 ![Shopping Cart Badge](https://img.shields.io/badge/Shopping%20Cart-LocalStorage-green)
-![Last Commit](https://img.shields.io/github/last-commit/AsianTaquito/Zonta-club-website)
-![Issues](https://img.shields.io/github/issues/AsianTaquito/Zonta-club-website)
-![GitHub Stars](https://img.shields.io/github/stars/AsianTaquito/Zonta-club-website?style=social)
-![License](https://img.shields.io/badge/License-CCA%203.0-blue)
-![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Deployed-brightgreen?logo=github)
+[![Last Commit](https://img.shields.io/github/last-commit/AsianTaquito/Zonta-club-website)](https://github.com/AsianTaquito/Zonta-club-website/commits/main)
+[![Issues](https://img.shields.io/github/issues/AsianTaquito/Zonta-club-website)](https://github.com/AsianTaquito/Zonta-club-website/issues)
+[![GitHub Stars](https://img.shields.io/github/stars/AsianTaquito/Zonta-club-website?style=social)](https://github.com/AsianTaquito/Zonta-club-website/stargazers)
 
 ---
 
@@ -73,6 +71,8 @@ This project is for **educational and demonstration purposes**.
 1. Clone the repository:
 ```bash
 git clone https://github.com/AsianTaquito/Zonta-club-website.git 
+
+```
 
 ---
 
