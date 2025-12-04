@@ -8,7 +8,6 @@
 ![Shopping Cart Badge](https://img.shields.io/badge/Shopping%20Cart-LocalStorage-green)
 [![Last Commit](https://img.shields.io/github/last-commit/AsianTaquito/Zonta-club-website)](https://github.com/AsianTaquito/Zonta-club-website/commits/main)
 [![Issues](https://img.shields.io/github/issues/AsianTaquito/Zonta-club-website)](https://github.com/AsianTaquito/Zonta-club-website/issues)
-[![GitHub Stars](https://img.shields.io/github/stars/AsianTaquito/Zonta-club-website?style=social)](https://github.com/AsianTaquito/Zonta-club-website/stargazers)
 
 ---
 
