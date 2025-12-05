@@ -7,10 +7,10 @@ Date: 2025-12-03
 ## 1. Introduction
 - **Purpose:** Define the functional and non-functional requirements for the Zonta Club of Naples website, including shop/cart features implemented via static HTML/CSS/JS.
 - **Audience:** Stakeholders, maintainers, designers, and developers.
-- **Scope:** Public-facing informational website with pages for Home, About, Scholarship, Shop, Cart, and Checkout; client-side interactivity (no server-side processing within repo).
+- **Scope:** Public-facing informational website with pages for Home, About, Scholarship, Shop, Cart, and Checkout; client-side interactivity.
 
 ## 2. System Overview
-- **Architecture:** Static site using HTML5UP template; assets in `assets/` (CSS/JS/images). No backend in repo.
+- **Architecture:** Static site using HTML5UP template; assets in `assets/` (CSS/JS/images). 
 - **Primary Pages:**
   - `index.html` — Home
   - `left-sidebar.html` — About
@@ -114,7 +114,7 @@ Date: 2025-12-03
 
 ## 12. Future Enhancements (Optional)
 - Integrate payment gateway (Stripe/PayPal) via external service.
-- Add events calendar with dynamic data.
+- Add spcific google calendar API
 - Add member-only content gated via external auth.
 
 ---

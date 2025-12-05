@@ -1,55 +1,63 @@
 # UML Diagrams - Zonta Club Website
 
-## 1. Use Case Diagram
+## 1. Cart Management Sequence Diagram
 
-Shows the interactions between users and the system.
+Shows the flow of managing items in the shopping cart.
 
 ```mermaid
-graph TB
-    subgraph Actors
-        V((Visitor))
-        S((Shopper))
-        M((Member))
+sequenceDiagram
+    actor User
+    participant Cart as Cart Page
+    participant JS as main.js
+    participant LS as localStorage
+    participant UI as Cart UI
+
+    %% Initial Load
+    User->>Cart: Navigate to cart.html
+    Cart->>JS: DOMContentLoaded event
+    JS->>LS: Get cart data
+    LS-->>JS: Return cart array
+    JS->>UI: Render cart items table
+    JS->>UI: Calculate & display subtotal
+
+    %% Increase Quantity
+    User->>UI: Click + button
+    UI->>JS: qty-btn click (change: +1)
+    JS->>JS: cart[index].quantity++
+    JS->>LS: Save updated cart
+    JS->>UI: Re-render cart table
+    JS->>UI: Update subtotal
+    JS->>UI: Update nav badge count
+
+    %% Decrease Quantity
+    User->>UI: Click - button
+    UI->>JS: qty-btn click (change: -1)
+    JS->>JS: cart[index].quantity--
+    alt quantity <= 0
+        JS->>JS: Remove item from array
     end
-    
-    subgraph "Zonta Club Website"
-        UC1[Browse Home Page]
-        UC2[View About Page]
-        UC3[View Scholarship Info]
-        UC4[Browse Shop]
-        UC5[Add Item to Cart]
-        UC6[View Cart]
-        UC7[Update Quantity]
-        UC8[Remove Item]
-        UC9[Clear Cart]
-        UC10[Proceed to Checkout]
-        UC11[Enter Delivery Info]
-        UC12[Make Donation]
-        UC13[Process Payment]
-        UC14[Access Member Portal]
-    end
-    
-    V --> UC1
-    V --> UC2
-    V --> UC3
-    V --> UC4
-    
-    S --> UC4
-    S --> UC5
-    S --> UC6
-    S --> UC7
-    S --> UC8
-    S --> UC9
-    S --> UC10
-    S --> UC11
-    S --> UC12
-    S --> UC13
-    
-    M --> UC14
-    
-    UC5 -.->|includes| UC6
-    UC10 -.->|includes| UC11
-    UC12 -.->|includes| UC6
+    JS->>LS: Save updated cart
+    JS->>UI: Re-render cart table
+    JS->>UI: Update subtotal
+    JS->>UI: Update nav badge count
+
+    %% Remove Item
+    User->>UI: Click X (remove) button
+    UI->>JS: remove-btn click
+    JS->>JS: cart.splice(index, 1)
+    JS->>LS: Save updated cart
+    JS->>UI: Re-render cart table
+    JS->>UI: Update subtotal
+    JS->>UI: Update nav badge count
+
+    %% Clear Cart
+    User->>UI: Click "Clear Cart" button
+    UI->>JS: clear-cart click
+    JS->>JS: cart = []
+    JS->>LS: Save empty cart
+    JS->>UI: Show empty cart message
+    JS->>UI: Reset subtotal to $0.00
+    JS->>UI: Hide nav badge
 ```
 
 ---
@@ -260,8 +268,8 @@ flowchart TD
 
 ## Diagram Descriptions
 
-### 1. Use Case Diagram
-Illustrates the three types of users (Visitor, Shopper, Member) and the actions they can perform on the website. Visitors can browse content, Shoppers can use the full e-commerce functionality, and Members can access the external member portal.
+### 1. Cart Management Sequence Diagram
+Details all cart interactions: loading cart data, increasing/decreasing quantities (with auto-removal when quantity hits zero), removing items via the X button, and clearing the entire cart. Shows how each action updates localStorage and refreshes the UI.
 
 ### 2. Class Diagram
 Shows the data structures used throughout the application:
@@ -279,12 +287,3 @@ Details the interaction flow between the user, UI components, JavaScript logic, 
 Shows the complete user journey from browsing products through to completing a purchase, including all decision points and alternative paths (donations, cart management, payment processing).
 
 ---
-
-## How to View These Diagrams
-
-These diagrams are written in **Mermaid** syntax and can be viewed:
-
-1. **GitHub**: Renders automatically in README/markdown files
-2. **VS Code**: Install "Markdown Preview Mermaid Support" extension
-3. **Online**: Paste into [Mermaid Live Editor](https://mermaid.live)
-4. **Export**: Use Mermaid CLI to export as PNG/SVG
